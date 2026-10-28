@@ -1,49 +1,63 @@
 ---
 title: "Sites & Builder"
-description: "Configure a site's cameras, calibration, points of interest, geofences, and floor plans in Builder."
+description: "Configure a site's cameras, calibration, points of interest, geofences, facilities, floor plans, and regions in Builder."
 ---
 
-Builder is where you configure the real-world spatial context of a site, cameras, calibration, points of interest, geofences, and facility floor plans, so Worlds can translate what your cameras see into real-world locations. It's meant to be built up iteratively: a site is usable as soon as cameras are placed and streaming, and you can layer in calibration, points of interest, geofences, and facilities over time as needed.
+Builder is where you configure the real-world spatial context of a site, cameras, calibration, points of interest, geofences, facilities, floor plans, and regions, so Worlds can translate what your cameras see into real-world locations. Opening **Sites** takes you straight into Builder for a site, where you can see and edit everything in one place. It's meant to be built up iteratively: a site is usable as soon as cameras are placed and streaming, and you can layer in calibration, points of interest, geofences, and facilities over time as needed.
 
 ## Before You Start
 
-- Sites & Cameras, and Builder within it, requires the Manager role or above. If your navigation only shows Monitoring, you won't have access.
+- Sites & Cameras requires the Manager role or above. Managers can open Builder to view a site, but editing requires the Administrator role. If you can only view, Builder shows **You have view-only access to this site.**
 - You don't need to complete every object type at once. Start with cameras, then add calibration, points of interest, geofences, and facilities as your use cases call for them.
+- Changes you make on the map, like dragging a camera or reshaping a geofence, save automatically. The status in the top right shows **Saving…** or **Saved**, and **Undo** and **Redo** (Ctrl+Z and Ctrl+Shift+Z, or Cmd on a Mac) step back through your map edits. Forms in the right panel still have their own **Save** button.
 
 ## Step 1: Select or Create a Site
 
-Under **Sites**, you'll see every site in your organization that you have permission to view, listed down the left side. Click the **New Site** button at the top to create a new site, or select an existing one. Selecting a site zooms the map to that location.
+Under **Sites & Cameras > Sites**, Builder opens on your first favorite site, or your first site by name. Click the site name in the top left to switch sites: search by name, star any site to keep it under **Favorites**, or click **New Site** at the bottom of the list to create one (Administrators only). Creating a site asks for a name and a location, by searching an address or picking a point on the map, then opens the new site in Builder.
 
 ![Worlds Site Details](/images/Worlds_SiteDetails.png "Worlds Site Details")
 
-Once you're on a site, the same left panel shows every spatial object type associated with it:
+The **Site Elements** panel on the right lists everything at the site, grouped by type:
 
+- **Facilities** - buildings at the site, each with its floor and any regions drawn inside it
 - **Cameras** - the video sources connected to the space
-- **Detectors** - the live models running inference across the site's cameras
-- **Points of Interest** - geospatial points that group cameras together
 - **Geofences** - polygons in lat/long space used to trigger workflow logic
-- **Facilities** - floor plans for buildings at the site, useful today for camera calibration reference and mapped data visualization elsewhere in the product
+- **Points of Interest** - geospatial points that group cameras together
 
-## Step 2: Edit Site Info or Launch Builder
+Use **Filter by name or type** to find something quickly, and the eye icon on any group to show or hide that type on the map. Selecting anything in the list zooms the map to it and opens its details on the **Properties** tab.
 
-Click the ellipses icon next to the site name for two options: **Edit Site** and **Launch Builder**.
+**Tip:** Each camera in the list has a menu with **View Source**, **Edit Source**, and **View Zones**, which open that camera on the [Cameras page](/sites-and-cameras/cameras-folders-zones) in a new tab.
 
-- **Edit Site** covers basic site information: name, location (by lat/long or by searching an address), and which storage account the site uses. Assigning storage accounts per site is useful if you want to separate storage costs by facility.
-- **Launch Builder** is where the actual spatial configuration happens, and typically where you'll create and calibrate cameras.
+## Step 2: Edit Site Settings
+
+Click the cog at the top of the Site Elements panel to open the site's settings: **Site Name**, **Longitude**, **Latitude**, and **Site Bounds**. Site bounds control where the map centers and how far it zooms when someone opens this site, in Builder and in [Overwatch](/monitoring/overwatch). Click **Add Site Bounds** and click around the site on the map to draw them, or **Remove Site Bounds** to start over.
+
+**Note:** Storage accounts are assigned to sites from **Settings > Storage Accounts**, by opening the account and choosing its **Assigned Sites**. See [Settings](/settings/overview).
 
 ## Step 3: Navigate the Builder Map
 
-Inside Builder, the same object menu (Cameras, Detectors, Points of Interest, Geofences, Facilities) sits on the left to find, select, and edit existing objects. Use the **Insert** button at the top of the map to create a new camera, point of interest, geofence, or facility.
+The controls in the top right of the map switch between a flat **2D** view and a tilted **3D** view, open the **Layers** menu to show or hide cameras (and their field of view), geofences, points of interest, and facilities, **re-center on the site**, and zoom. In 3D, you can also rotate the map.
 
-**Tip:** Scroll to zoom, left-click and drag to pan, and hold Ctrl while dragging to rotate the map. Getting the right vantage and zoom level makes placing objects and calibrating cameras much easier.
+To add something new, click the round **+** button in the bottom right of the map and choose:
+
+- **Camera** (or press C) - a video feed placed on the map
+- **Point of interest** (or press P) - a named spot with a default view
+- **Geofence** (or press G) - an area that triggers events
+- **Facility** - a building outline drawn on the map
+
+A hint bar walks you through placing it. Press **Esc** to cancel.
+
+**Note:** A new camera or point of interest is created the moment you click the map, and a new geofence or facility once you finish drawing it, each with a default name you can change.
+
+**Tip:** Scroll to zoom and drag to pan. Getting the right vantage and zoom level makes placing objects and calibrating cameras much easier.
 
 ![Worlds Builder Geofence](/images/Worlds_BuilderGeofence.png "Worlds Builder Geofence")
 
 ## Step 4: Add and Position a Camera
 
-Selecting or inserting a camera opens a right-side panel with its basic information: streaming URL, position, and rotation.
+Add a camera from the **+** menu and click where it sits, or select an existing camera from the Site Elements list. Its details open on the right: **Camera Name**, **Enabled**, **Streaming URL**, **Longitude** and **Latitude**, an optional **Edge Transcoder**, and **Rotation**. **Edit Camera Settings** opens the camera's full settings on the Cameras page.
 
-**Tip:** Get the position as accurate as possible, either by entering exact latitude and longitude or by clicking and dragging the camera on the map. Rotation only needs a rough estimate at this stage, point-to-point calibration (Step 5) will set a computed rotation value for you afterward.
+**Tip:** Get the position as accurate as possible, either by entering exact latitude and longitude or by dragging the camera on the map. Rotation only needs a rough estimate at this stage: drag the direction handle on the camera to turn it (hold Shift to snap to 30°), or type a value. Calibration (Step 5) sets a computed rotation for you afterward, and locks it from manual changes.
 
 Once a camera is placed, confirm it's streaming video before moving on to calibration.
 
@@ -51,51 +65,88 @@ Once a camera is placed, confirm it's streaming video before moving on to calibr
 
 ## Step 5: Calibrate the Camera
 
-With a camera selected, find **Active Calibrations** at the bottom of the right panel and click the plus icon to start a new calibration. This pulls up a recent thumbnail from the camera's live stream in a panel below the map.
+With a camera selected, find **Calibrations** at the bottom of the right panel and click the plus icon to start a new calibration. This pulls up a recent frame from the camera's video in a panel below the map.
 
-Use the **Add Marker** button to place matching points on both the map and the video thumbnail. Then click and drag them into matching positions in both the map and video panels.
+Use **Add Marker** to place matching points on both the map and the video frame. Then drag them into matching positions in both the map and video panels.
 
-**Tip:** An accurate calibration requires at least five to seven markers. Reference static objects and artifacts, corners, doors, pillars, and place them as accurately as you can - if challenging to locate in the map panel, create a **Facility** and upload a floor plan image to place on the map for reference. Calibration is what lets Worlds translate detections from that camera into real-world locations.
+**Tip:** Calibration needs at least three markers to run, but an accurate calibration usually takes five to seven. Reference static objects and artifacts, corners, doors, pillars, and place them as accurately as you can - if challenging to locate in the map panel, create a **Facility** and upload a floor plan image to place on the map for reference. Calibration is what lets Worlds translate detections from that camera into real-world locations.
 
-Once all markers are placed, click **Quick Save** to start the calibration job. When it completes, the camera is calibrated, and its detections will begin to carry a lat/long position in addition to the pixel location within the camera frame.
+Once all markers are placed, click **Calibrate** to start the calibration job. When it completes, the camera is calibrated, and its detections will begin to carry a lat/long position in addition to the pixel location within the camera frame.
 
 ![Worlds Camera Calibration](/images/Worlds_CameraCalibration.png "Worlds Camera Calibration")
 
 ## Step 6: Group Cameras with Points of Interest
 
-Insert a point of interest from the top menu. It appears on the map as a point you can click and drag, similar to a camera. Use the right-side panel to select which cameras should be associated with it from a dropdown.
+Add a point of interest from the **+** menu and click where it belongs. It appears on the map as a point you can drag, similar to a camera. In its details, use **Associated Cameras** to choose which cameras belong to it.
 
 **Tip:** Points of interest aren't commonly needed, but they can be valuable when several cameras share a single mount facing different directions, or to group cameras with overlapping views of the same area (such as lots at a construction site, or work areas in a manufacturing facility).
 
 ## Step 7: Define Areas with Geofences
 
-Insert a geofence from the top menu to create a polygon. Click a point to edit it, click a midway line to add a new point, or click and drag the rotate icon to reposition the whole shape.
+Add a geofence from the **+** menu, then click the map to place each corner. Click the first corner again, click **Finish**, or press Enter to close the shape.
+
+To edit a geofence, select it: drag inside the shape to move it, drag a corner to reshape it, click the midpoint of an edge to add a corner, or drag the top handle to rotate it. Its details list every corner's coordinates and its approximate area.
 
 Geofences define specific areas of physical space. They're especially useful alongside calibrated cameras with a wide field of view, common in outdoor settings, letting you build workflow logic that triggers when a detected object does or doesn't intersect the defined area.
 
 **Tip:** Geofences are especially useful if you're integrating GPS devices into your Worlds data.
 
-## Step 8: Upload Floor Plans with Facilities
+## Step 8: Add Facilities and Floor Plans
 
-Insert a facility from the top menu and give it a name, typically a building at the site. A single site can contain multiple facilities if it has multiple buildings.
+Add a facility from the **+** menu and draw the building's outline on the map, then click the first corner to finish. This creates the facility, typically a building at the site, along with its first floor. A single site can contain multiple facilities if it has multiple buildings.
 
-Once created, a **Floors** menu appears on the right. Click to add a floor and you'll get an upload dialog for a floor plan image. After uploading, the image renders directly onto the map, where you can:
+Select the floor from the Site Elements list (under its facility) to work with its floor plan. Click **Add Floor Plan** to upload an image (jpg or png). The image renders directly onto the map, where you can:
 
-- Click the corners to rescale
-- Click and drag to reposition or rotate
-- Use the **Freeform** and **Locked** tabs to either warp the image to match points or scale it proportionally
-- Use the opacity slider to see the mapping library's building outline underneath, to confirm alignment
+- Drag the corners to rescale and align it
+- Use **Freeform** or **Locked** to either warp the image to match points or keep it in proportion
+- Fine-tune the exact corner coordinates
+- Use the **Blueprint Opacity** slider to see the mapping library's building outline underneath, to confirm alignment
 
-**Tip:** Align the floor plan to the existing building outline in the mapping library as precisely as you can. Once aligned and saved, it becomes a reference for calibrating cameras against interior features (walls, structures, corners, doors), and adds spatial context to cameras, detections, and events elsewhere in the product.
+**Tip:** Align the floor plan to the existing building outline in the mapping library as precisely as you can. Once aligned and saved, it becomes a reference for calibrating cameras against interior features (walls, structures, corners, doors), and adds spatial context to cameras, detections, and events elsewhere in the product, including the Floor Plans layer in [Overwatch](/monitoring/overwatch).
 
 Save the floor once you're satisfied with the alignment.
 
+**Note:** If a facility shows **Not on map** in the list, it doesn't have an outline yet. Select it and click **Add outline**, then drag its corners to fit the building.
+
+{/* SHOT: Worlds_BuilderFloor.png - a floor open with Freeform / Locked, Blueprint Opacity, and the floor plan aligned on the map */}
+
+## Step 9: Set Up Regions
+
+Every facility is also a region, and you can draw smaller regions inside it, so Worlds understands the layout of the space: which building, which zone, which line, which workstation. Regions show up in [Overwatch](/monitoring/overwatch), where users can go inside one to see only the cameras and events that matter there.
+
+Select a facility, or a region inside it, to set:
+
+- **Type** - **Building**, **Zone**, **Line**, or **Workstation**, from largest to smallest, or **Fence** for a boundary outline. A region can sit inside a larger type, while a fence can't sit inside or hold other regions.
+- **Parent** - which larger region this one sits inside
+- **Enabled** - turn off to hide the region everywhere outside Builder
+- **Can enter** - lets users open the region as its own view in Overwatch
+- **Colour** and **Fill opacity** - how the region looks on the map
+
+Colour, fill opacity, and Can enter start from the type's defaults, and **Reset** puts any you've changed back.
+
+To add a region inside a facility, open its floor and click the plus icon under **Regions**. Worlds adds a new region inside the floor, one type smaller than its parent (a zone inside a building, for example), ready to drag and reshape on the map.
+
+**Note:** A facility needs an outline before you can add regions to it.
+
+{/* SHOT: Worlds_BuilderRegion.png - Site Elements with a facility, floor, and region expanded, and the region's Type, Parent, and Can enter settings open */}
+
+## Deleting Elements
+
+Select anything and click its trash icon to delete it, or press Delete or Backspace with a camera, point of interest, geofence, or facility selected. Worlds asks you to confirm first.
+
+- Deleting a camera, point of interest, geofence, facility, or floor can't be undone.
+- Deleting a facility or region tells you where any regions inside it will move.
+- Deleting a region can be undone.
+
 ## Quick Reference
 
-- **Select or create a site** - land on the right location and object list
-- **Edit Site vs. Launch Builder** - basic info vs. actual spatial configuration
-- **Add a camera** - accurate position, rough rotation
-- **Calibrate** - match markers between map and video to translate detections to real-world location
+- **Sites** - opens Builder on your favorite or first site; switch, search, star, or create sites from the site name in the top left
+- **Access** - Manager and above to view; Administrator and above to edit
+- **Saving** - map edits save automatically with Undo and Redo; panel forms have their own Save
+- **Site settings** - name, location, and site bounds, from the cog in Site Elements; storage accounts are assigned under Settings
+- **Add** - the + button for cameras, points of interest, geofences, and facilities
+- **Calibrate** - match markers between map and video (three minimum, five to seven for accuracy) to translate detections to real-world location
 - **Points of Interest** - group cameras, mainly for multi-camera mounts or large outdoor sites
 - **Geofences** - define areas for workflow triggers, especially useful outdoors
-- **Facilities** - upload and align floor plans for calibration reference and spatial context
+- **Facilities** - building outlines with an aligned floor plan for calibration reference and spatial context
+- **Regions** - Building, Zone, Line, Workstation, or Fence, with Can enter for Overwatch

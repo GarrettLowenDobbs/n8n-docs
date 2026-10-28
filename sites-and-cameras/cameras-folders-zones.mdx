@@ -67,6 +67,8 @@ Click the **Add new zone** button in the right panel, and then click to draw ver
 
 **Note:** Zones only apply to cameras, not folders, since a folder's video may come from several different source cameras with no single fixed frame to draw a zone on.
 
+**Note:** If a zone classifier model is watching a zone, the zone carries a **Classifier** tag in the list, and deleting it names the classifiers that depend on it before you confirm. Deleting the zone stops those classifiers from scoring that spot, and can't be undone.
+
 ![Worlds Zones](/images/Worlds_Zones-1.png "Worlds Zones")
 
 **Zones** are primarily used in workflow logic, to detect when an object is or isn't present in a zone, or to track a sequence of objects moving through multiple zones. See the [Agents & Workflows](/agents-and-workflows/overview) documentation for more on how zones get used there.
