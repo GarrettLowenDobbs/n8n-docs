@@ -1,0 +1,111 @@
+---
+title: "Agents"
+description: "Build an agent with Iris, review and activate it, and follow what it finds."
+---
+
+Agents are built and run with [Iris](/platform-overview/iris). Describe what you want watched, in a short conversation or from a document you already have, and Iris drafts an agent for you: what it checks, how it checks it, and what it reports. Once you've reviewed and activated it, the agent runs on its own, on a schedule or whenever something happens, and posts what it finds to [Event Activity](/monitoring/event-activity) right alongside the rest of your events.
+
+## Before You Start
+
+- Agents are available to Managers and above, under **Agents & Workflows > Agents**, wherever agents are enabled in your environment.
+- The first agent activated in your organization may need an Administrator to activate it, since activation sets up the agent's access to your Worlds data.
+- Agents work from what's already in Worlds: your cameras, the models running on them, and the zones and tags they produce. The better your cameras and models are set up, the more an agent can do with them.
+
+## The Agents Page
+
+The Agents page lists everything you're working on, in up to three sections:
+
+- **Interviews in progress** - conversations with Iris you've started but not finished. **Resume** picks up where you left off, or **Discard** throws it away. Interviews expire after 30 days of inactivity.
+- **Drafts** - agents Iris has drafted that are waiting for your review. Click **Review draft** to open one.
+- **Agents** - your activated agents.
+
+Each agent card shows a few snapshots from the cameras it watches, whether it's **Enabled** or **Disabled**, how it's doing, how often it runs, when it last ran or runs next, and a strip of its recent runs. Its health reads one of:
+
+- **Healthy** - its last run succeeded
+- **Needs attention** - its last run failed
+- **Running** - it's running right now
+- **No runs yet** - it's waiting for its first run, or needs to be enabled
+
+![Worlds Agents](/images/Worlds_Agents.png "Worlds Agents")
+
+## Step 1: Build an Agent with Iris
+
+Click **Build with a guided interview** in the top right. Iris asks one question at a time, with clickable choices along the way, so most interviews take only a few minutes:
+
+1. **What to watch** - describe it in plain language, like "monitor the punch room for breakouts." If you have more than one site, Iris asks which one.
+2. **Cameras and models** - Iris finds the right camera, shows you snapshots, and checks that the model running on it is actually detecting what's needed. If it isn't, she'll suggest another camera.
+3. **Zones and tags** - Iris looks at the zones and tags available on that camera to work out how to check for what you described.
+4. **How specific to be** - choose between a general mandate ("keep an eye on this area") or a specific detection. For a specific detection, Iris asks for two or three example times it happened, so she can compare them against normal periods.
+5. **When it runs** - on a schedule, or whenever a particular thing happens, such as a vehicle entering a zone.
+
+When Iris has what she needs, the interview shows **The agent is ready to draft**. Give the agent a name, set how often it runs if it's on a schedule (presets cover every 10 minutes, every hour, or daily at 6am), and click **Create draft**.
+
+**Note:** Creating a draft doesn't start the agent. You review it first, then activate it.
+
+{/* SHOT: Worlds_AgentInterview.png - an interview mid-conversation, with choice chips and a camera snapshot strip */}
+
+### Or: Generate from a Document
+
+Already have a standard operating procedure or work instruction? Click **Generate from a document**, drop in a text or Markdown file (up to 2 MB), give it a name, and click **Generate draft**. Iris extracts the objectives from the document and drafts the agent, a workflow, and a set of dashboard widgets from it. If anything in the document is unclear, Iris stops and asks you numbered questions before going further.
+
+## Step 2: Review and Activate the Draft
+
+Open a draft from the **Drafts** section, or straight from the end of the interview. The draft page shows everything Iris put together before anything runs:
+
+- **Schedule**, **Mode**, and where the draft came from
+- **Produces event records** - whether the agent will record each thing it finds as an event, filed under its own name in Event Activity
+- **Extracted objectives** - what Iris understood you want
+- **Proposed dashboard widgets** - how its results could be visualized
+- **Workflow** - the steps the agent will run
+- **Notes from Iris** - anything she wants you to know
+
+When it looks right, click **Activate agent**. If it isn't what you wanted, **Discard draft** and start a new interview.
+
+{/* SHOT: Worlds_AgentDraft.png - an existing draft or activated draft showing the Produces event records card and the review sections */}
+
+## Step 3: Follow Your Agent
+
+Click any agent to open its page. The header shows whether it's enabled, its schedule, when it runs next, and its health. The menu next to it lets you **Disable** or **Enable** the agent, **Run now**, regenerate its description, or re-link its cameras.
+
+The agent's page has four tabs:
+
+- **Overview** - what the agent does, its **Latest result** (the key numbers, a briefing, images, events detected, and anything awaiting review), its dashboards, and a map of the cameras it covers
+- **Results** - how its results have trended over time, with each run's result one click away
+- **Workflow** - the steps the agent runs, laid out as a graph you can inspect. This is an advanced view, mainly for refining how an agent works.
+- **About** - its execution mode, model, usage, skills, instructions, and a history of its runs
+
+Click any run to see its details: how long it took, what it detected, a timeline of its steps, and a quality check.
+
+{/* SHOT: Worlds_AgentOverview.png - an existing healthy agent's Overview tab: header, Latest result tiles, Dashboards, and coverage map */}
+
+### Chat with Your Agent
+
+Click **Chat with Agent** to ask questions about the agent and what it's found, or ask it to change something. The conversation opens in a panel beside the agent's page.
+
+## Step 4: Build Your Agent's Dashboards
+
+Agents can build dashboards of their own results. On the agent's Overview tab, click **Generate dashboard**. This opens Chat with Agent with the request ready to go, and the agent drafts a dashboard of what it detects. Ask it to add a widget, remove one, or change a breakdown until it's right, then click **Review & publish** to open the draft and publish it from the [draft banner](/monitoring/published-dashboards#drafts).
+
+An agent can keep several dashboards, each focused on a different slice of what it tracks. Click **Generate dashboard** again to ask for another one, and use the menu on any dashboard card to open or delete it.
+
+{/* SHOT: Worlds_AgentDashboards.png - the Dashboards card on an agent's Overview tab, with a Live dashboard and the Generate dashboard button */}
+
+## Step 5: Find Agent Results in Event Activity
+
+When an agent is set to produce event records, everything it finds is posted to [Event Activity](/monitoring/event-activity) under its own name, filed under its site, so it shows up next to the rest of your events, in Overwatch, and anywhere else events appear. Use the **Agent** filter in Event Activity to see just one agent's findings.
+
+**Note:** Each agent gets a [chronicle producer](/agents-and-workflows/overview#chronicle-producers) named after it when it's activated. Deleting that producer permanently deletes everything the agent has posted, so leave it in place for as long as you want to keep the agent's results.
+
+## Common Uses
+
+Agents are best for the questions you'd otherwise answer by watching footage or pulling reports by hand: checking a process is followed, catching a recurring problem, or summarizing what happened in an area over a shift. Start with one clear mandate, let it run for a few days, then use Chat with Agent and its results to sharpen it.
+
+## Quick Reference
+
+- **Access** - Manager and above, under Agents & Workflows > Agents; the first activation in an organization may need an Administrator
+- **Build** - a guided interview with Iris, or Generate from a document; both create a draft
+- **Review** - check the draft's objectives, workflow, and whether it produces event records, then Activate agent or Discard draft
+- **Agent page** - Overview, Results, Workflow, and About tabs; Disable/Enable and Run now from the menu
+- **Chat with Agent** - ask about results or request changes
+- **Dashboards** - Generate dashboard drafts one from the agent's results; publish it from the draft banner; agents can keep several
+- **Results** - posted to Event Activity under the agent's name; filter by Agent

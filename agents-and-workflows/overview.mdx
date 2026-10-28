@@ -1,39 +1,50 @@
 ---
 title: "Agents & Workflows"
-description: "Turn detection and track data from your computer vision models into automated event logic."
+description: "Turn detection and track data from your computer vision models into automated event logic, with Iris agents, chronicle producers, and workflows."
 ---
 
-Agents & Workflows is where you turn detection and track data from your computer vision models into real business logic, defining when events get created and posted in Worlds.
+Agents & Workflows is where you turn detection and track data from your computer vision models into real business logic, defining when events get created and posted in Worlds. There are two ways to do it, and they work side by side:
+
+- **Agents** - Iris builds an agent with you from a conversation or a document, then runs it on a schedule, or whenever something happens, to watch your cameras and data and report what it finds.
+- **Workflows** - you build the logic yourself in Worlds' embedded n8n instance, and post the events it creates under a **chronicle producer**.
 
 ## Before You Start
 
 - Not available to Users. Managers, Administrators, and Super Administrators only.
-- You must create an agent before you can create a workflow, every workflow needs to belong to one.
+- Every workflow posts its events under a chronicle producer, so create one before you build a workflow (see Step 1 below). Agents create their own.
 
 ## Agents
 
-Agents are also referred to as "Chronicle producers" in the UI and API documentation, both terms mean the same thing. An agent is really just a bucket: a category one or more workflows belong to, and where the events those workflows generate get written.
+Agents are built and run with Iris. Tell Iris what you want watched, review the agent she drafts, and activate it, and it runs on its own from then on, posting what it finds to [Event Activity](/monitoring/event-activity) and building dashboards of its results. See the [Agents](/agents-and-workflows/agents) guide for the full walkthrough.
 
-You can theme agents however makes sense for your organization:
+**Note:** If agents aren't enabled in your environment, **Agents** in the navigation opens the Chronicle Producers page described below instead.
 
-- **By individual use case** - e.g., a "PPE Detection" agent holding a single workflow for validating PPE use, or two workflows, one for capturing and logging valid PPE and another for non-compliance.
-- **By larger functional bucket** - e.g., a Productivity agent covering OEE/OLE data and workflows, a Safety agent for all EHS workflows and use cases, and a Security agent.
+## Chronicle Producers
 
-There's no single right structure, and you can reorganize agents later.
+A chronicle producer is a bucket: a category one or more workflows belong to, and where the events those workflows generate get written. Open it from **Agents & Workflows > Chronicle Producers**.
 
-**Note:** The Agents page is intentionally simple today. Worlds is actively building toward agentic-first capabilities, and this page will get more functional over time as independent coding agents get introduced to address more use cases.
+You can theme chronicle producers however makes sense for your organization:
 
-![Worlds Agents](/images/Worlds_Agents.png "Worlds Agents")
+- **By individual use case** - e.g., a "PPE Detection" producer holding a single workflow for validating PPE use, or two workflows, one for capturing and logging valid PPE and another for non-compliance.
+- **By larger functional bucket** - e.g., a Productivity producer covering OEE/OLE data and workflows, a Safety producer for all EHS workflows and use cases, and a Security producer.
 
-### Step 1: Create an Agent
+There's no single right structure, and you can reorganize them later.
 
-Click **New Chronicle Producer** in the top right. Only a name is required; description, time zone, icon, and active/inactive status are optional. The icon appears on every activity the agent produces, so you can tell at a glance where a record came from. Click into any existing agent to edit that information later.
+Each Iris agent also gets its own chronicle producer, named after the agent, the moment it's activated, so its findings are filed alongside everything else. You'll see those in the list too.
+
+{/* SHOT: Worlds_ChronicleProducers.png - the Chronicle Producers list showing a few workflow producers and an agent's producer */}
+
+### Step 1: Create a Chronicle Producer
+
+Click **New Chronicle Producer** in the top right. A name and a time zone are required; description, icon, and active/inactive status are optional. The icon appears on every activity the producer posts, so you can tell at a glance where a record came from. Click any existing producer to edit it later, or click **View Events** to see its activities in Event Activity.
 
 <Frame>
-  ![Worlds Agent Create](/images/Worlds_AgentCreate.png "Worlds Agent Create")
+  ![Worlds Chronicle Producer Create](/images/Worlds_AgentCreate.png "Worlds Chronicle Producer Create")
 </Frame>
 
-There's no other functionality on this page. Once you're in the Workflow Builder, creating a new workflow includes a setting for which agent it belongs to.
+Once you're in the Workflow Builder, creating a new workflow includes a setting for which chronicle producer it posts to.
+
+**Warning:** Deleting a chronicle producer permanently removes it along with all of its activities and their events. That includes the producer an Iris agent creates for itself, so deleting an agent's producer deletes everything the agent has found.
 
 ## Workflows
 
@@ -50,6 +61,8 @@ For general n8n platform basics, see [n8n's website](https://n8n.io/). For how t
 ## Quick Reference
 
 - **Access** - Manager, Administrator, Super Administrator; not available to Users
-- **Agents (Chronicle Producers)** - the bucket a workflow belongs to; create one before creating any workflow; name required, description/time zone/icon/active status optional
+- **Agents** - built and run with Iris; see the [Agents](/agents-and-workflows/agents) guide
+- **Chronicle Producers** - the bucket a workflow posts to; create one before creating any workflow; name and time zone required, description/icon/active status optional; each Iris agent gets its own
+- **Deleting a producer** - permanently removes all of its activities and events, including an agent's findings
 - **Workflows** - opens Worlds' embedded n8n instance; custom Worlds nodes plus full native n8n functionality
 - **Permissions** - your Worlds role controls access to this section; n8n access itself is managed separately
