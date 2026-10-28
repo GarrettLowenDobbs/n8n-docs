@@ -12,7 +12,7 @@ Access to Settings, and what you can do within it, depends on your role:
 - **User** - no access to the Settings menu at all.
 - **Manager** - access to Settings, but only the Users page, and scoped to the sites they have access to. A Manager is meant to act as a local site administrator: they can view users in the organization, invite and manage users of an equal or lesser role, and manage site permissions, limited to the sites they themselves can access.
 - **Administrator** - access to Users, Storage Accounts, Detectors, Transcoders, and Edge Deployments.
-- **Super Administrator** - additional org-wide tools on top of everything above: creating custom dashboards visible to all users, managing feature flags for alpha/beta functionality, exporting and importing models across environments, and managing organizations. This is an internal role reserved for Worlds staff and isn't covered in depth here.
+- **Super Administrator** - additional org-wide tools on top of everything above: creating custom dashboards visible to all users (from the [Dashboards](/monitoring/published-dashboards) page), managing feature flags for alpha/beta functionality, exporting and importing models across environments, and managing organizations. This is an internal role reserved for Worlds staff and isn't covered in depth here.
 
 ## Users
 
@@ -41,7 +41,7 @@ To create one, click **New Storage Account** in the top right, name it, and choo
 
 For help provisioning the underlying storage account and generating its SAS token, see [Storage Account Creation](/infrastructure/storage-account-creation).
 
-Once created, the account appears in the primary **Storage Accounts** list. Click into any connected account to assign it to a specific sites in your org.
+Once created, the account appears in the primary **Storage Accounts** list, with an **Expiration** column showing when each account's credentials expire, so you can renew them before video stops saving. Click into any connected account to see its details, including its expiration, and to assign it to specific sites in your org under **Assigned Sites**.
 
 **Tip:** Assigning a separate storage account per site is useful if you want to track video storage costs independently by site.
 
@@ -118,7 +118,7 @@ Opening an edge gives you five blocks:
 ## Quick Reference
 
 - **Users** - Manager and above; invite and manage users, assign roles and site permissions
-- **Storage Accounts** - Administrator and above; define cloud/physical storage, assignable per site
+- **Storage Accounts** - Administrator and above; define cloud/physical storage, see when credentials expire, and assign accounts to sites
 - **Transcoders** - Administrator and above; read-only list of configured edge transcoders; load balancing happens at the camera level
 - **Detectors** - Administrator and above; create a live detector from a model and cameras, or edit and stop an existing one
 - **Edge Deployments** - Administrator and above; create edges, assign their sites, issue single-use enrollment tokens, and read reported cluster and storage health
