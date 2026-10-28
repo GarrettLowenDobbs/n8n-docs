@@ -31,6 +31,7 @@
             "pages": [
               "monitoring/event-intelligence",
               "monitoring/published-dashboards",
+              "monitoring/dashboard-management",
               "monitoring/event-activity",
               "monitoring/overwatch",
               "monitoring/live-monitor"
@@ -59,8 +60,7 @@
           {
             "group": "Settings",
             "pages": [
-              "settings/overview",
-              "monitoring/dashboard-management"
+              "settings/overview"
             ]
           }
         ]

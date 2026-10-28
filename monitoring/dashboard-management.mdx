@@ -1,59 +1,75 @@
 ---
-title: "Dashboard Management"
-description: "Build custom dashboards and widgets that publish immediately to Published Dashboards for your org."
+title: "Building Dashboards"
+description: "Build custom dashboards and widgets on the Dashboards page, or let Iris draft one for you."
 ---
 
-Dashboard Management, under Settings in the navigation, is where custom dashboards and their widgets get built. Anything saved here publishes immediately to the [Published Dashboards](/monitoring/published-dashboards) page under Monitoring, available to every user in the org.
+Custom dashboards are built and edited right on the [Dashboards](/monitoring/published-dashboards) page under Monitoring, the same place everyone views them. Changes you save in the builder go live immediately for every user in the org, while dashboards drafted by Iris, your agents, or an AI assistant wait as drafts until someone publishes them.
 
 ## Before You Start
 
-- Currently limited to Super Administrators, traditionally reserved for Worlds employees who help set up and configure your environment. Worlds is working to open this up, both to more end-user roles and to deeper integration with Iris. If you or your team want to build custom dashboards - please let us know.
-- The **Custom Widgets** tab covered near the end of this guide is feature-flagged and may not be enabled in every environment.
+- Building and editing dashboards is limited to Super Administrators, traditionally reserved for Worlds employees who help set up and configure your environment. If you or your team want to build custom dashboards, please let us know.
+- **Generate with Iris**, the **Custom widgets** library, and **Connect AI assistant** are feature-flagged and may not be enabled in every environment. Custom widgets and Connect AI assistant are available to Administrators and above.
 
-![Worlds Dashboard Management](/images/Worlds_DashboardManagement.png "Worlds Dashboard Management")
+![Worlds Building Dashboards](/images/Worlds_DashboardManagement.png "Worlds Building Dashboards")
 
 ## Step 1: Create a New Dashboard
 
-Click **New Dashboard** in the top right and give it a name, then choose a layout.
+Click **New Dashboard** in the top right of the Dashboards page.
+
+1. **Name dashboard** - give it a unique name.
+2. **Choose layout** - pick a starting layout, either for a **Monitor** (layouts like Executive Brief, Command Center, or Split Focus) or a **TV or large display** (layouts like NOC Wall or Six Tiles).
+
+Click **Submit** to create the dashboard and open it in the builder. Nothing is created until you submit, so you can cancel at any point.
 
 **Tip:** The layout is just a starting point, not a commitment. Large-format layouts suit a dashboard destined for a TV or big display; more focused layouts suit something reviewed on a monitor. Either way, everything is editable once you're in the canvas, so the initial choice isn't a big decision.
 
 ![Worlds Dashboard Layout](/images/Worlds_DashboardLayout.png "Worlds Dashboard Layout")
 
+### Or: Let Iris Build It
+
+Where it's enabled, the first step of New Dashboard also offers **Let Iris build it**. Click **Generate with Iris**, describe the dashboard you want (or start from a suggestion like "Busiest cameras and hours"), and Iris drafts it for you. Iris always creates a draft, so nothing goes live until you open it from **Manage > Review drafts**, look it over, and publish it. See [Drafts](/monitoring/published-dashboards#drafts).
+
 ## Step 2: Manipulate Your Canvas
 
 Your layout choice loads as a set of blank spaces. Click and drag the bottom corner of any space to resize it: leaving negative space fills in the smallest available widget size, or drag a space larger to expand it and absorb whatever's behind it.
 
+A dashboard holds up to 12 widgets across up to 8 rows.
+
 ## Step 3: Choose a Widget Type
 
-Click the plus icon in any empty space to open the widget editor. "Widget" is the general term for any data visualization on a dashboard. Widgets are organized by category:
+Click the plus icon in any empty space to open the widget picker, which asks "What do you want to know?" "Widget" is the general term for any data visualization on a dashboard, and widgets are organized by the question they answer:
 
-- **Monitor Volume** - currently just **Total Count**
-- **Monitor Trends** - time-based visualizations: a line graph (count over time), an area graph (same, with the area beneath filled in), and a bar graph (counts bucketed into time ranges)
-- **Compare Categories** - comparative visualizations: horizontal ranked bar chart, ranked column chart, connected counts (a line graph without time on the x-axis), filled counts (line graph with the area filled in), and radial counts (distinct from a pie chart, the largest value fills the complete circle, useful for the same kind of comparison a bar or column chart would show)
-- **Understand Distribution** - a standard pie/donut distribution chart, a tree map (sizes categories as proportional spaces), and the Active Hours heat map (hour of day by day of week, for any event metric)
-- **Analyze Location** - the Events Map widget, plotting events on a map, colored by whatever dimension or category you choose. **Note:** requires calibrated cameras with GPS position data attached to events by the workflow, the same requirement as the Events Map on [Event Intelligence](/monitoring/event-intelligence).
-- **Inspect Details** - a ranked list widget, similar to the bottom list on Event Intelligence, except it counts by category rather than pulling in specific events.
-- **Live Video** - the **Live Camera** widget, a live feed from a camera you choose, for keeping an eye on a spot right from the dashboard.
-- **Custom** - any widget you've built with the custom code editor (see below) shows up here.
+- **Status & Health** - is it healthy, on target, or does it need attention? Value vs target, threshold gauges, status strips and statements, Iris insights, fleet status, state boards, journey trackers, SLA rows, outcome splits (two-sided readings like pass/fail or in/out), and status funnels.
+- **Numbers & Trends** - a total, or how a number is moving. Total count, total with trend, total events, and events over time.
+- **Breakdowns & Rankings** - what a total is made of, and what's on top. Share by field, ranked lists, event priority, stage funnels, polar area charts, tracks by tag, and events grouped by type or duration.
+- **Time & schedule** - when things happen, and how much time is left. Heat maps, timelines, camera activity lanes, operations calendars, day agendas, shift rings, and countdowns.
+- **Video & Location** - camera feeds, activity clips, and where it happened. Events maps, maps (camera maps, tracked objects, density, hot spots, zones, track playback, and more), live camera, activity clips, camera coverage, and live camera maps. **Note:** location widgets need calibrated cameras with GPS position data attached to events by the workflow, the same requirement as the Events Map on [Event Intelligence](/monitoring/event-intelligence).
+- **Filters & controls** - let viewers narrow the whole dashboard, or ask Iris about it. Filter group and Ask Iris widgets.
+- **Chart builder** - pick the chart you want, then choose its data. Trends over time, category comparisons, radial bar, pie/donut, treemap, list, data table, radar, bubble, before vs after, and daily range.
+- **Custom** - widgets your team or an agent built (see [Custom Widgets](#custom-widgets) below), split into **Made by people** and **Made by agents**.
 
 ![Worlds Dashboard Widget](/images/Worlds_DashboardWidget.png "Worlds Dashboard Widget")
 
-## Step 4: Choose a Data Source
+## Step 4: Choose a Data Source and Starting Point
 
-The labels at the top of the widget present options for compatible data sources. Many widgets only offer Event Activity as a data source, since visualizing the output of your workflows is the primary use case. Some widgets, like Total Count, can also pull from Tracks (individual detections by tracked position), Zones, or Devices (cameras).
+Selecting a widget shows a preview, along with what it's set up to read:
 
-Each data source comes with ready-made presets, such as Event Activity by priority or Devices by site, so you can start from one and adjust it rather than building from scratch.
+- **Data** - the data source, such as Event Activity, Tracks Summary, Devices, or Zones
+- **Split by** - how the data is broken down
+- **Starting point** - a ready-made setup, such as Event Activity by priority or Cameras enabled, that you can adjust in the next step
+- **Chart type** - for chart families, whether it draws as a line, area, or bar
 
-Select a data source, then click **Continue** to configure it.
+The preview uses your own data where it can, or shows a **Sample data** badge when there isn't any yet. Some widgets always read one specific source; to chart something else, use Chart builder instead.
+
+Click **Configure widget** to continue.
 
 ## Step 5 (Optional): Add to a Section
 
-You can also add a widget to a top or bottom section within the same space, useful for grouping visualizations that share the same filters, for example, pairing total event counts by priority with a line chart of the same events over time.
+Widgets can also hold a smaller widget in a **Header** or **Footer** section around the **Main** one, useful for grouping visualizations that share the same filters, for example, pairing total event counts by priority with a line chart of the same events over time.
 
 ## Step 6: Configure the Widget
 
-Clicking a widget opens its configuration panel on the left, with a live preview using the time range in the top left (the same way it'll behave once published). There are three tabs:
+Clicking a widget opens its configuration panel on the left, with a live preview using the dashboard's date range (the same way it'll behave once live). Depending on the widget, you'll see some or all of these tabs:
 
 ### Core Data
 
@@ -69,8 +85,11 @@ Most of the configuration lives here.
 - **Axis fields** - typically an X-axis, Y-axis, and an optional series. For a line chart, X is usually time (though it can be any dimension). Selecting time gives you a choice between continuous time (as a date, the default) or categorical time (by day of week or hour of day across your whole range).
 - **Bin size** - if you keep continuous/date grouping, bin size controls granularity: day gives you one point per day, hour gives you one per hour, and so on. Set it to match the level of insight you're after.
 - **Label format** - depending on the field, format the display as a raw number, integer, decimal, compact style (1K, 1M), duration, or percentage.
-- **Series** - most widgets (aside from simple ones like Total Count or Pie/Donut) let you split data by a category, for example, event volume split by priority, or by any metadata field. Very flexible.
+- **Series** - most widgets let you split data by a category, for example, event volume split by priority, or by any metadata field.
 - **Custom grouping** - available under most axis and series fields via "Add Custom Grouping." Lets you bin several raw values into one relabeled group, for example, combining truck, car, semi-truck, jeep, trailer, and motorcycle tags into a single "Vehicles" category.
+- **Logic** - rules, targets, and thresholds, for widgets that judge a value as on target or needing attention.
+- **Click filters other widgets** - on by default for most charts, so a click on a bar, slice, row, or stage filters the rest of the dashboard.
+- **Show Ask Iris button** - adds an Ask Iris icon to the widget's header, so viewers can ask Iris about it.
 - **Tooltip** - toggle on and add explanatory text; any user hovering over the widget will see it. Good practice for anything that isn't self-explanatory.
 - **Display options** - show/hide gridlines, legend, axis labels, title, data markers, or data labels. Some of these expand into further formatting choices once enabled.
 - **Advanced settings** - usually fine at the default, but worth adjusting if you're displaying large volumes of data, since the number of series or data points shown can be capped by default. Also where you control whether null values are passed through or grouped into an "Unknown" category.
@@ -83,45 +102,75 @@ Set the widget's color palette from a dropdown of preset palettes, or choose a s
 
 Below that, the color filters menu lets you target specific values: select the series name, use "equal to" (or "in list" for multiple values) to target it, choose a color, and click Save. Useful for keeping meaning consistent across a dashboard, for example, always showing "QA Passed" or "Approved" in green and "QA Failed" or "Denied" in red across every widget.
 
-## Step 7: Save and Keep Building
+### Filters and Filtering
 
-Click **Save to Dashboard** in the top right to return to the canvas with your widget placed. From there:
+- **Filters** - add filters to this widget's header (see Step 7).
+- **Filtering** - on map widgets, choose whether the map filters other widgets, is filtered by them, or both.
 
-- Add more widgets via the plus icons
-- Edit or delete existing widgets
-- Click and drag from the top to move, or from the bottom-right to resize existing widgets
-- Click **Add Row** at the bottom for more space
+## Step 7: Add Filters
 
-**Tip:** Delete any unused empty rows before saving the dashboard, it keeps the published version cleaner and easier to use.
+Filters let viewers narrow a dashboard to what they care about. Filters can work by camera, site, priority, activity type, status, or a metadata field, and there are three ways to add them:
+
+- **Header filters** - click **Add global filter** next to the date control in the builder. For each filter, choose what it filters by, how it looks (a dropdown, segmented control, chips, a text search, and more, or **Auto** to let Worlds pick), an optional label, and a default value. When a dashboard has more than two header filters, they collapse into a single **Filters** button for viewers.
+- **Widget filters** - on a widget's **Filters** tab, add filters that show in that widget's header. Choose whether each one applies to **Only this widget** or to **All compatible widgets**.
+- **Filter group** - add a Filter group widget (under Filters & controls) to put a set of filters right on the canvas, as a filter bar, side panel, or triage set, with an optional reset button.
 
 ![Worlds Custom Dashboard](/images/Worlds_CustomDashboard.png "Worlds Custom Dashboard")
 
-## Step 8: Publish
+## Step 8: Save and Keep Building
 
-Saving a dashboard publishes it immediately, it becomes available to every user in the org on the [Published Dashboards](/monitoring/published-dashboards) page under Monitoring.
+Click **Add to dashboard** to place a new widget on the canvas, or **Save** after editing an existing one. From the canvas you can:
 
-## Custom Widgets (Code Editor)
+- Add more widgets via the plus icons
+- Edit or remove existing widgets
+- Drag a widget to move it, or drag its corner to resize it
+- Click **Add Row** at the bottom for more space, or delete a row you no longer need
 
-Back on the root Dashboard Management page, the Custom Widgets tab (if enabled) lists any custom widgets already built in your environment, or an empty page with a **New Widget** button if none exist yet.
+Use **Preview** in the top right to open the dashboard as viewers will see it, and the ellipses menu for **Dashboard Settings** (bordered or borderless theme), **Clone Dashboard**, or **Delete Dashboard**.
+
+**Tip:** Delete any unused empty rows before saving the dashboard, it keeps the live version cleaner and easier to use.
+
+## Step 9: Publish
+
+Saving in the builder publishes immediately: **Save Dashboard**, **Save**, and **Add to dashboard** all update the live dashboard for every user in the org.
+
+Drafts work differently. Dashboards drafted by Iris, your agents, or an AI assistant connection stay hidden until someone opens them and chooses **Publish dashboard** from the draft banner, or **Publish changes** when the draft updates a dashboard that's already live. Publishing changes keeps the previous version archived. See [Drafts](/monitoring/published-dashboards#drafts).
+
+**Note:** Cloning a draft creates a live copy, not another draft.
+
+## Custom Widgets
+
+Open **Manage > Custom widgets** on the Dashboards page (if enabled) to see the custom widgets in your environment, split into **Made by people** and **Made by agents**, each marked **Published** or **Draft**.
 
 ![Worlds Custom Widget](/images/Worlds_CustomWidget.png "Worlds Custom Widget")
 
 Clicking **New Widget** opens a built-in code editor:
 
-- The first page shows templated starter code for the widget, with a tab to render a live preview.
-- The left panel lists the files the widget needs, with options to download, import, or add files. Download and edit locally in your own editor (matching the existing format), or use an AI coding assistant with these files as context to build the visualization you're after, then re-upload.
-- The **Data** tab lists the bindings used in the widget.
-- The **Library** tab lists available UI library objects you can incorporate.
+- The **Files** panel lists the files the widget needs, with options to add, download, or import files. Download and edit locally in your own editor (matching the existing format), or use an AI coding assistant with these files as context to build the visualization you're after, then re-upload.
+- The **Data** panel lists the data bindings used in the widget.
+- The **Library** panel lists available UI library objects you can incorporate.
+- Toggle between **Code Editor** and **Widget Preview**, and check the preview at sizes from Tiny to Wide.
 
-Name the widget in the top left and save. Once it's previewed as working and published, it becomes available in the standard widget picker (under Custom Widgets, from Step 3) for use on any dashboard.
+Name the widget, save it, and click **Publish** once it's working. Only published widgets show up in the widget picker, under **Custom**, for use on any dashboard.
 
 ![Worlds Widget Code](/images/Worlds_WidgetCode.png "Worlds Widget Code")
+
+## Connect AI Assistant
+
+**Manage > Connect AI assistant** (if enabled) lets you ask Claude, Cursor, or another AI assistant to build and edit dashboards for you. Create a token, then follow the setup steps for your tool (Claude Code, Cursor, VS Code, Claude Desktop, or another MCP client). Anything your assistant builds shows up on the Dashboards page as a draft for you to review and publish.
+
+**Note:** The token is shown only once, so copy it when you create it and keep it somewhere secure.
+
+{/* SHOT: Worlds_ConnectAIAssistant.png - the Connect your AI assistant dialog with its tool tabs, before creating a token */}
 
 ## Quick Reference
 
 - **Access** - Super Administrator only today; Worlds can grant access or build dashboards on your behalf
-- **New Dashboard** - name it, pick a starting layout (fully editable afterward)
-- **Widget categories** - Monitor Volume, Monitor Trends, Compare Categories, Understand Distribution, Analyze Location, Inspect Details, Custom Widgets
-- **Widget config tabs** - Core Data (filter/sort), Display (title, axes, binning, series, grouping, tooltip, display toggles), Colors (palette and targeted color rules)
-- **Publishing** - saving a dashboard makes it live immediately on [Published Dashboards](/monitoring/published-dashboards)
-- **Custom Widgets tab** - feature-flagged; built-in code editor with file management, data bindings, and a UI component library
+- **New Dashboard** - name it, pick a Monitor or TV layout (fully editable afterward), or let Iris draft it
+- **Canvas** - up to 12 widgets across 8 rows
+- **Widget categories** - Status & Health, Numbers & Trends, Breakdowns & Rankings, Time & schedule, Video & Location, Filters & controls, Chart builder, Custom
+- **Widget config tabs** - Core Data (filter/sort), Display (title, axes, binning, series, grouping, logic, click-to-filter, Ask Iris, display toggles), Colors, plus Filters and Filtering where they apply
+- **Filters** - header filters, widget filters, and Filter group widgets
+- **Publishing** - builder saves go live immediately; drafts from Iris, agents, and AI assistants wait for someone to publish them
+- **Custom widgets** - built-in code editor with files, data bindings, and a UI component library; publish to add to the picker
+- **Connect AI assistant** - build dashboards from Claude, Cursor, and other MCP clients, as drafts

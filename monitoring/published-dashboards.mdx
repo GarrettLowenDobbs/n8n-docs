@@ -1,50 +1,107 @@
 ---
-title: "Published Dashboards"
-description: "Browse fully custom dashboards built from Worlds' data visualization widget library."
+title: "Dashboards"
+description: "Browse and explore custom dashboards built from Worlds' data visualization widget library."
 ---
 
-Beyond the general Event Intelligence overview, Worlds supports fully custom dashboards, built from a large and growing library of data visualization widgets (plus custom-coded widget types), tailored to a specific use case. Any dashboard that gets built appears here, on the Published Dashboards page under Monitoring.
+Beyond the general Event Intelligence overview, Worlds supports fully custom dashboards, built from a large and growing library of data visualization widgets (plus custom-coded widget types), tailored to a specific use case. Every dashboard lives on the **Dashboards** page under Monitoring, which is where you browse them, open them, and, if you build dashboards, edit them too.
 
 ## Before You Start
 
-- Building a dashboard is currently limited to Super Administrators, so in practice it's usually the Worlds forward-deployed engineering team that builds these, tailored to specific business insights and use cases. Worlds is working to open this up to more end users over time.
-- This guide covers viewing and navigating published dashboards. For how to actually build one, see the [Dashboard Management](/monitoring/dashboard-management) guide.
+- Building and editing dashboards is limited to Super Administrators, so in practice it's usually the Worlds forward-deployed engineering team that builds these, tailored to specific business insights and use cases. For how that works, see [Building Dashboards](/monitoring/dashboard-management).
 - Once published, a dashboard is available to every user in the org, but the same site-permission scoping applies as elsewhere in Monitoring: Users and Managers with limited site permissions can open the same dashboard as everyone else, but any site they don't have permission to simply won't populate data for them.
+- Managers and above can also review and publish draft dashboards that agents build for them (see [Drafts](#drafts) below).
 
 ## Browsing Dashboards
 
-The Published Dashboards page defaults to sorting by most recently updated. Use the controls at the top to sort by name instead, or change the sort order. Each dashboard shows its name alongside a thumbnail preview of its layout and widgets.
+The Dashboards page defaults to showing the most recently updated dashboards first. Use the sort control at the top to switch to least recently updated, or to sort by name.
 
-![Worlds Published Dashboards](/images/Worlds_PublishedDashboards.png "Worlds Published Dashboards")
+Each card shows the dashboard's name, how many widgets it has, when it was last updated, and a preview of its layout. The preview shows the dashboard's real widgets filled in with sample data, so you can recognize a dashboard at a glance, then open it to see your live numbers.
+
+A few cards carry a small badge in the corner:
+
+- **Draft** - a dashboard that hasn't been published yet, only visible to the people who can review it
+- **Robot icon** - a dashboard built by Iris, by one of your agents, or through an AI assistant connection; hover it to see where it came from
+
+![Worlds Dashboards](/images/Worlds_PublishedDashboards.png "Worlds Dashboards")
 
 ## Opening a Dashboard
 
-Clicking into any dashboard loads live data into every widget it's configured with, the same way Event Intelligence does. Depending on how it's built, you might see counts, pie charts, bar or column charts, timelines, line charts, or maps, there's effectively no limit to what can be visualized given the widget library and custom-code support available to whoever builds it.
+Clicking into any dashboard loads live data into every widget it's configured with, the same way Event Intelligence does. Depending on how it's built, you might see counts, gauges, status strips, charts, timelines, schedules, maps, live video, or custom-coded widgets, there's effectively no limit to what can be visualized given the widget library and custom-code support available to whoever builds it.
+
+Click the dashboard's title at the top to jump straight to another dashboard without going back to the list.
 
 **Tip:** Most widgets support a hover state, hover over a value to see the underlying data behind it: series values and categories in a line chart, totals and percentages in a pie chart, or exact counts in a stacked bar chart.
 
 ![Worlds Custom Dashboard Tip](/images/Worlds_CustomDashboardTip.png "Worlds Custom Dashboard Tip")
 
+## Date Range and Filters
+
+Every dashboard has a date control at the top: **Today**, **Last 7 days** (the default), **Last 30 days**, or a **Custom Range** of up to 31 days. Your choice sticks for that dashboard for the rest of the day.
+
+Many dashboards also carry filters, set up by whoever built the dashboard, to narrow everything you're looking at:
+
+- **Header filters** sit next to the date control, for things like camera, site, priority, activity type, status, or a metadata field such as franchise. When a dashboard has more than two, they collapse into a single **Filters** button.
+- **Widget filters** sit in a single widget's header and narrow just that widget, or every compatible widget on the page.
+- **Filter group** widgets put a set of filters right on the dashboard canvas, often as a filter bar or side panel.
+
+Active filters show as pills at the top. Click the x on a pill to remove it, or open the **+N** overflow and choose **Clear all**. Hover a pill to see how many widgets it applies to, and if a widget can't use a particular filter, it shows a small icon in its header explaining why.
+
+You can also filter by clicking right on the data. On most charts, clicking a bar, slice, row, or stage adds a filter pill and narrows the rest of the dashboard to match.
+
+**Tip:** Filters and the date range are saved in the dashboard's URL, so **Copy Dashboard URL** shares exactly the view you're looking at.
+
+{/* SHOT: Worlds_DashboardFilters.png - an existing dashboard with one or two header filters and an active pill, date control visible */}
+
+## Ask Iris
+
+Dashboards can put [Iris](/platform-overview/iris) right next to the data:
+
+- **Ask Iris about a widget** - widgets set up with an **Ask Iris** button carry a small Iris icon in their header. Click it and Iris opens on the dashboard with that widget's context, starting from a question like "What stands out in this widget, and why?"
+- **Ask Iris widget** - some dashboards include a standalone Ask Iris card that asks about the whole dashboard, using its data, date range, and filters.
+
+{/* SHOT: Worlds_DashboardAskIris.png - Iris open beside a dashboard after clicking a widget's Ask Iris button */}
+
+## Video in Dashboards
+
+Live camera and activity clip widgets play video right on the dashboard. Use the **Fullscreen** control on any player to watch it full screen, and **Exit fullscreen** to return.
+
+## Drafts
+
+Dashboards built by Iris, by your agents, or through an AI assistant connection start out as drafts. A draft stays hidden from everyone else until it's published.
+
+Open a draft from its card, or from **Manage > Review drafts** at the top of the Dashboards page. A banner across the top reads **Not published yet**, with two choices:
+
+- **Publish dashboard** - makes it live for everyone in the org
+- **Discard draft** - deletes it
+
+When a draft is a set of changes to a dashboard that's already live, the banner reads **Unpublished changes** instead, and the live dashboard stays exactly as it is until you **Publish changes**. Only the person who started a draft or a Manager can publish it.
+
+{/* SHOT: Worlds_DashboardDraft.png - a draft dashboard with the Not published yet banner and its Publish / Discard buttons */}
+
 ## Shared Dashboard Features
 
-Every published dashboard, whatever its layout, shares the same core controls:
+The ellipses menu (top right) on every dashboard includes:
 
-- **Date selector** (top) - today, last 7 days, last 30 days, or a custom range
-- **Ellipses menu** (top right) - copy the dashboard URL to share with another Worlds user, export a PDF (each widget on its own page), or refresh the dashboard's data
+- **Copy Dashboard URL** - share the dashboard, with its current date range and filters, with another Worlds user
+- **Export PDF** - each widget on its own page
+- **Refetch Dashboard Data** - reload every widget's data
+- **Built by an agent** - on dashboards an agent built, a link to that agent (Managers and above)
 
-To get back to the full list, use Published Dashboards in the navigation.
+To get back to the full list, use Dashboards in the navigation.
+
+**Note:** If a widget on a dashboard has been retired from the widget library, it shows **This widget is no longer available** in its place. The rest of the dashboard works as normal, and whoever maintains the dashboard can replace it.
 
 ## Common Use
 
-Published Dashboards is where you'll find the visualizations Worlds' forward-deployed engineering team has crafted for your specific use cases, distinct from the general overview on Event Intelligence. And wherever you're reviewing data, here or on [Event Intelligence](/monitoring/event-intelligence), [Iris](/platform-overview/iris) is available in the bottom right to answer questions about what you're looking at and help you dig in further.
-
-**Note:** Dashboard-building functionality is expected to open up over time, not just to more end users, but eventually to Iris as well - so any user can help craft new visualizations, with or without Iris' help.
+Dashboards is where you'll find the visualizations Worlds' forward-deployed engineering team, Iris, and your agents have crafted for your specific use cases, distinct from the general overview on Event Intelligence. And wherever you're reviewing data, here or on [Event Intelligence](/monitoring/event-intelligence), [Iris](/platform-overview/iris) is available in the bottom right to answer questions about what you're looking at and help you dig in further.
 
 ## Quick Reference
 
-- **Creating dashboards** - currently Super Admin only (typically built by the Worlds team); see the [Dashboard Management](/monitoring/dashboard-management) guide for details
+- **Creating dashboards** - Super Admin only (typically built by the Worlds team), or drafted by Iris and your agents; see [Building Dashboards](/monitoring/dashboard-management)
 - **Access** - every user once published; Users and Managers see only data for sites they have permission to
-- **Browsing** - sortable by name or last updated, with thumbnail previews
-- **Widgets** - counts, pie/bar/column charts, timelines, line charts, maps, and custom-coded types; hover any value for underlying data
-- **Shared controls** - date range selector, plus copy URL / export PDF / refresh from the ellipses menu
-- [**Iris**](/platform-overview/iris) - available from any dashboard to ask questions about the data
+- **Browsing** - sortable by last updated or name, with layout previews and Draft / robot badges
+- **Date range** - Today, Last 7 days, Last 30 days, or a custom range up to 31 days
+- **Filters** - header, widget, and Filter group filters, plus click-to-filter; active filters show as pills and travel with the URL
+- **Ask Iris** - from a widget's Iris button or an Ask Iris widget
+- **Drafts** - review from Manage > Review drafts; publish or discard from the banner; Managers can publish agent drafts
+- **Ellipses menu** - copy URL, export PDF, refetch data, and a link to the agent that built it
