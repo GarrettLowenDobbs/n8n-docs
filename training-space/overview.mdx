@@ -1,0 +1,90 @@
+---
+title: "Training Space"
+description: "Build, test, and deploy vision models as projects in Training Space, under Models & Training."
+---
+
+Training Space is where Worlds' vision models get built, tested, and put to work on your cameras. Each model lives in a **project**: pick your footage, find and tag the objects you care about, train a model, test it, and deploy it, with the project itself pointing you to the next step at every stage.
+
+## Before You Start
+
+- Available to Administrators and above. Because a model isn't tied to a single site, and can run on cameras from anywhere in your organization, this section is unavailable to Manager and User roles regardless of their site permissions.
+- Training Space replaces Collections as the default way to train models. If your environment still uses the classic experience, see [Collections](/collections-and-models/overview) instead.
+- For the step-by-step training flow, see [Train and Deploy a Model](/training-space/train-and-deploy). For reading a model's results, see [Model Metrics](/training-space/model-metrics).
+
+## Coming from Collections
+
+If you've trained models in Collections before, everything you know still applies, it's just organized around a project instead of a collection:
+
+- A **project** takes the place of a collection: the cameras and videos a model learns from, and everything built from them.
+- **Tags** are your object classes.
+- A **search** (or object search) is what indexing used to be: Worlds finding candidate objects in your footage for you to tag.
+- **Training data** versions are the datasets generated for each round of training.
+- **Corrections** are what used to be called User Feedback.
+
+## Models & Training in the Navigation
+
+- **Projects** - the home page for every project in your organization
+- **Start project** - start a new project from anywhere
+- **My Workspace** - every recent training-related job you've personally kicked off, with quick links back into each project
+- **Jobs** - every job running across your organization, such as object searches and video processing, with full details and logs
+
+Any job in progress also shows up in the **Active Processes** menu at the bottom left of the navigation, alongside your active detectors, with a live estimate of its percent completion.
+
+<Frame>
+  ![Worlds Active Processes](/images/Worlds_ActiveProcesses.png "Worlds Active Processes")
+</Frame>
+
+## The Projects Page
+
+The Projects page shows every project as a card, with a snapshot from its cameras, whether it learns from **Cameras**, **Uploaded videos**, or both, its current model, the classes it detects, and its latest activity. A **Deployed** badge marks projects running live, and **Needs attention** flags anything that's failed or stuck.
+
+Narrow the list with the tabs across the top, **All projects**, **Needs attention**, **Active work**, **Deployed**, and **Trained**, or use **Filters** to find projects by who created or trained them. When projects need attention, a strip at the top names them so you can jump straight in.
+
+{/* SHOT: Worlds_TrainingSpaceProjects.png - the Projects page with a mix of cards (a Deployed badge, source chips), the tabs, and the attention strip if present */}
+
+## Starting a Project
+
+Click **Start project** and choose how you want to start:
+
+- **Launch · Built-in Detection** - get common detections, like people and vehicles, running on live cameras right away, with no custom training. Choose your cameras and a detection model (Worlds recommends one), give the project a name, and click **Start detecting**.
+- **Forge · Custom Detection Training** - build a precise model of your own from examples you find and confirm in your footage. This is the full training flow, covered step by step in [Train and Deploy a Model](/training-space/train-and-deploy).
+- **Import a model** - already have a trained model archive? Start a project from it. Imported projects can run and be tested, but they can't train new versions.
+
+{/* SHOT: Worlds_TrainingSpaceStart.png - the Start project dialog with the Launch and Forge cards and the Import a model link */}
+
+**Tip:** Launch is a good way to unblock downstream work, like building workflows or dashboards, while a more precise Forge model is still being trained.
+
+## Inside a Project
+
+Every project has a row of tabs across the top. A Forge project has the full set:
+
+- **Overview** - where the project stands and what to do next
+- **Find objects** - search your footage for candidate objects
+- **Tag objects** - review what Worlds found and tag it into classes
+- **Backgrounds** - build clean background images for training
+- **Training data** - generate the datasets a model trains and tests on
+- **Models** - every model version trained in the project, and how each performed
+- **Review** - check a deployed model's detections and correct its mistakes
+- **Deployment** - which cameras the model is running on, and its status
+
+A Launch project only needs **Overview**, **Review**, **Models**, and **Deployment**.
+
+The cog in the top bar opens the **Project menu**: **Project settings** to rename or delete the project, and **Manage cameras and videos** to change the footage it learns from. The project name in the top bar switches between projects without going back to the list.
+
+### The Overview Tab
+
+While a project is being built, the Overview tab shows a **Recommended** next step, such as "Find objects in your footage" or "Train your custom model," along with a card for every stage of the pipeline, marked **Next**, **Ready**, **Working**, **Done**, or **Needs attention**. Once a model is trained, its version, score, and what it detects appear at the top, with a link to its details. **See the whole pipeline** opens a map of every input and output in the project.
+
+Once a model is deployed, the Overview tab becomes a live dashboard instead: detections today, active cameras, the latest activity, what the model detects, where it runs, and its versions.
+
+{/* SHOT: Worlds_TrainingSpaceOverview.png - a project's Overview tab, either the building view with the Recommended banner and stage cards, or a deployed project's live view */}
+
+## Quick Reference
+
+- **Access** - Administrator and above; not available to Managers or Users regardless of site permissions
+- **Projects** - every project as a card; filter by status tabs or by who created or trained it
+- **Start project** - Launch for built-in detection, Forge for custom training, or Import a model
+- **Project tabs** - Overview, Find objects, Tag objects, Backgrounds, Training data, Models, Review, Deployment
+- **Project menu** - rename or delete the project, or manage its cameras and videos
+- **My Workspace / Jobs / Active Processes** - track the jobs you and your team have running
+- **Deep dives** - [Train and Deploy a Model](/training-space/train-and-deploy) and [Model Metrics](/training-space/model-metrics)

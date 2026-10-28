@@ -1,0 +1,75 @@
+---
+title: "Model Metrics"
+description: "Read how a Training Space model performs, compare versions, and tune its detection thresholds."
+---
+
+Every model trained in [Training Space](/training-space/overview) is measured, so you can see how well it performs, compare it against earlier versions, and decide when it's ready to deploy. This guide covers where those numbers live and how to read them.
+
+## Before You Start
+
+- Available to Administrators and above, in any project under Models & Training.
+- A model gets its metrics from the test set generated alongside its training data, so they fill in once training finishes. Foundation models don't produce metrics.
+
+## The Models Tab
+
+The **Models** tab lists every model trained in the project.
+
+At the top, a summary shows the **Latest version** next to the **Deployed version**, or a single **Current model** when they're the same one, with its status and what to do next, such as **Test on footage** or **Deploy to cameras**.
+
+Below that, **Version history** lists every version with its status, its performance (mAP), what it was tested on, and when it was trained. Search, filter, and sort the list, including by **Highest performance**, and use the menu on any row to rename a version. Click any version to open it.
+
+**Compare versions** (when a project has two or more) puts versions side by side, so you can see whether the latest is actually an improvement. Differences smaller than the measurements' margin of error show as **Within the margin of error**.
+
+{/* SHOT: Worlds_TrainingSpaceModels.png - the Models tab with the Latest / Deployed summary and Version history */}
+
+## A Model's Metrics
+
+Open a model to see its **Model metrics**:
+
+- **F1** - a single score that balances precision and recall
+- **Precision** - of everything the model detected, how much was correct
+- **Recall** - of everything it should have detected in the generated test set, how much it found
+- **mAP** - mean average precision, the overall measure of detection quality across every class and confidence level
+- **Real Recall** - how much the model found on the project's own tagged video
+
+**Metrics by tag** breaks the same numbers down for each class, so you can see which objects the model handles well and which need more tagging.
+
+{/* SHOT: Worlds_ModelMetrics_RealRecall.png - a model's metrics tiles including Real Recall with its ± range, and Metrics by tag (needs a model with real recall measured) */}
+
+### Real Recall
+
+Standard recall is scored against generated test data, which Worlds builds from your tagged objects. **Real Recall** is scored against your own tagged video, the frames you actually tagged in the project's footage, so it's a truer read on how the model will perform on your cameras in the real world.
+
+Real Recall appears for models and tags where it's been measured, and Worlds measures it for you automatically, there's nothing to set up. When it's estimated from a sample of your video, it shows a **±** range: the 95% confidence interval, in percentage points. A Real Recall of 50.8% ±1.3, for example, means the true value is very likely between 49.5% and 52.1%. On the **Precision & Recall vs. Confidence** chart, Real Recall draws as its own line with its range shaded.
+
+**Tip:** When standard recall is high but Real Recall is noticeably lower, the model is doing well on generated data but missing objects in your real footage. Tagging more examples from real video, or adding corrections from the Review tab, usually closes that gap.
+
+## Charts
+
+- **Confusion Matrix** - a breakdown of every class in the project and how likely each is to be confused with another, based on the test set.
+- **Precision & Recall vs. Confidence** - pick a class to see how the confidence threshold affects precision and recall at each level.
+
+![Worlds Precision Recall](/images/Worlds_PrecisionRecall.png "Worlds Precision Recall")
+
+## Tuning Detection Thresholds
+
+The Precision & Recall chart is useful for setting the ideal confidence threshold for each class once the model is trained. Adjusting a class's threshold can surface detections and tracks you'd otherwise miss, or cut down on false positives, without retraining anything.
+
+To change them, open the model's **Options** menu and choose **Configure thresholds**, or use **Configure thresholds** on the project's Deployment tab. Each class starts at its default, and **Reset to saved value** undoes a change before you save.
+
+## Tests
+
+Every time you run **Test on footage**, the test is listed on the model's page. Open a finished test to see the model's detections on that footage, or delete one you no longer need.
+
+## Why Older Models' Scores Drop
+
+Whenever you generate a new set of training data and train a new model, the most recent past models (up to 10) are re-evaluated against the new test set. As you add more varied objects and tags over time, expect the metrics on _older_ models to decline, that's the test set getting harder, not those models getting worse. Compare versions against the same test set, and watch for each new version to come out ahead.
+
+## Quick Reference
+
+- **Models tab** - Latest and Deployed versions, Version history, and Compare versions
+- **Metrics** - F1, Precision, Recall (generated test set), mAP, and Real Recall (your own tagged video), overall and by tag
+- **Real Recall** - measured automatically where available; the ± range is a 95% confidence interval
+- **Charts** - Confusion Matrix, and Precision & Recall vs. Confidence
+- **Thresholds** - Options > Configure thresholds, or from the Deployment tab; no retraining needed
+- **Re-evaluation** - up to 10 past models are re-scored on each new test set, so older scores can drop

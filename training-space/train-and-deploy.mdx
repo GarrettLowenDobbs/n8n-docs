@@ -1,0 +1,157 @@
+---
+title: "Train and Deploy a Model"
+description: "Walk through a Forge project in Training Space, from your footage to a trained model deployed on live cameras."
+---
+
+This guide walks through a **Forge** project in [Training Space](/training-space/overview), from raw footage to a custom vision model running on your cameras. The process is iterative by design, expect to circle back and refine as you learn what your model does and doesn't catch. Along the way, the project's Overview tab always recommends the next step, so you can pick up wherever you left off.
+
+## Before You Start
+
+**Tip:** Define your use case before you touch anything. Know what events or objects you actually need to detect (a forklift entering a zone, inventory leaving storage, a pallet jack in use, etc). That goal shapes every decision below, from which footage you choose to what you tag.
+
+**Warning:** If you're new to the platform, build and test in a non-production or sandbox project first. Deploying to live cameras that real workflows depend on risks breaking work other teams rely on.
+
+## Step 1: Start a Forge Project and Choose Footage
+
+Click **Start project** under Models & Training, then choose **Forge · Custom Detection Training**. Give the project a name (Worlds suggests one), then add the footage your model will learn from under **Cameras and uploaded videos**:
+
+- **Live camera** - connect a camera's stream, and Worlds keeps recording it
+- **Upload videos** - use recordings you already have
+
+When your footage is selected, click **Find examples**. Worlds creates the project and takes you to its Overview tab.
+
+**How to decide what goes together:**
+
+- Choose cameras that share visual context, similar environments, looking for similar things.
+- Keep visually distinct feeds separate. An exterior camera and an interior camera will generally perform better as separate projects with separate models rather than one shared model.
+- The same camera can be used by more than one project, for example, running a specialized model in one project while also contributing to a general "people detection" project.
+
+**Note:** A project built only from uploaded videos can be trained and tested, but it can't be deployed live until you add a live camera.
+
+You can change a project's footage at any time from the cog in the top bar: **Manage cameras and videos**.
+
+{/* SHOT: Worlds_ForgeSetup.png - the Forge setup screen with cameras and uploaded videos listed and the Add footage options open (don't click Find examples) */}
+
+## Step 2: Find Objects in Your Footage
+
+Before you can tag anything, Worlds needs to find candidate objects in your footage. Open the **Find objects** tab and click **Browse footage** to pick a recording. You can browse a camera's full history, filter by date or name, and change the order, and **Previous** and **Next** step through recordings.
+
+Choose whether to search the **Full video** or a **Selected range**, using the handles on the timeline to narrow it down to the window containing the objects you're interested in.
+
+**Tip:** Shorter searches process faster. In general, aim for as short a range as possible, focused on the objects you want to tag into your model.
+
+Then tell Worlds what to look for:
+
+- **By name** - type the objects you want, like person, vehicle, forklift, or helmet. Worlds adds related terms automatically to improve results (you can remove any you don't want). Faster, with less cleanup.
+- **Everything visible** - finds every visible object, for you to sort through when tagging. Expect more results to review.
+
+**Tip:** Searching by name is the faster path to a performant model, use it when you can. It works best for common objects like people and vehicles. More unusual or specific objects will likely need **Everything visible**, followed by sorting the results while tagging.
+
+Click **Search this footage** to start. Progress shows under **Search activity**, and in Jobs and Active Processes. When a search shows **Ready to tag**, click **Review results** to start tagging.
+
+{/* SHOT: Worlds_FindObjects.png - Find objects with a recording loaded, By name selected and terms entered, and the Search activity card (don't click Search this footage) */}
+
+## Step 3: Tag Objects
+
+The **Tag objects** tab shows the objects Worlds found in a grid, alongside the video they came from.
+
+**Finding objects:**
+
+- **Find all in frame** - move to any frame in the video, then click **Find all in frame** to see every object captured at that point.
+- **Find all in region** - draw directly on the video to select an area, and find every object captured there across the whole search.
+- **Find similar in this search** - hover any object and click its similar icon to find visually matching objects, ranked by similarity.
+- **Find similar across all results** - the same, across every search in the project, not just this one.
+
+**Tip:** If you've searched multiple recordings or cameras, turn on **Search across all results** before finding similar objects. It's a good way to accelerate tagging and build a more accurate model by finding relevant objects faster.
+
+Narrow the grid with **All objects**, **Tagged**, or **Untagged**, and by size, from **Main objects** down to **Fine details**.
+
+**Applying tags:** click objects to select them, or use **Select all**, then apply a tag from the menu that appears: create a new tag, or choose an existing one. **Manage tags** lets you add tags, change their colors, or delete one everywhere. Aim for around 500 tagged examples per tag, the tag panel shows how close each one is.
+
+**Tip:** Click a tag to **Find more like** it, **Show outliers** that may be mistagged, or **View only** that tag.
+
+**Backgrounds:** click **Pick backgrounds** to mark the current frame as a background while you tag.
+
+{/* SHOT: Worlds_TagObjects.png - Tag objects grid with a tile hovered (similar icons visible) and the Tags & filters panel */}
+
+## Step 4: Build Clean Backgrounds
+
+Good backgrounds directly improve your training data and your final model. A good background has no objects of interest in it at all, and each camera in your project should have one.
+
+Open the **Backgrounds** tab to see your library, including frames marked while tagging. If no frame is genuinely empty, click **Create a background** to open Background Studio, which takes any frame and erases the objects out of it:
+
+1. **Pick a frame** - browse a camera's footage and click **Use this frame as background**.
+2. **Review what gets erased** - Worlds detects every object in the frame and proposes what to remove. Switch between **Original**, **Detections**, and **Cleanup** to compare, choose what to erase, and use **Add a missed object** for anything the detector didn't catch.
+3. **Approve the result** - check the cleaned frame and approve it.
+
+**Tip:** You're deciding what shouldn't be in a background, not what matters to your model. Anything transient belongs in the removal list, people, vehicles, and pallets in motion included. Fixed infrastructure that's always in frame should stay.
+
+**Warning:** Nothing reaches a training run until you approve it. An unapproved background is skipped.
+
+{/* SHOT: Worlds_TrainingSpaceBackgrounds.png - the Backgrounds tab library, or Background Studio review on an EXISTING background (picking a new frame creates one) */}
+
+## Step 5: Prepare Training Data
+
+Open the **Training data** tab. A **New training data** draft shows everything that goes into the next round: your footage, tagged objects, backgrounds, and corrections.
+
+- **Tags for this generation** - click a tag to leave it out. Generally, include all tags. The exception is a tag still under active development, leave it out if you'd rather get to a performant model on your other tags first, and fold it in later.
+- **Composition** - click **Adjust** to change the augmentation mix or the **Segment overlap**. The defaults work well in most cases. A higher overlap packs more objects into each generated image, which helps scenes with a wide or low field of view, or densely packed objects.
+
+Click **Generate training data** to start. Worlds generates a large volume of images from your footage and tagged objects, both a **Training set** to train the model and a **Test set** to measure it. This can take a while depending on how much data is in your project. Each finished version is listed in the Training data tab, so you can see exactly what went into every model.
+
+{/* SHOT: Worlds_TrainingData.png - the New training data draft with its inputs, tag chips, and Composition (don't click Generate) */}
+
+## Step 6: Train the Model
+
+When training data is ready, click **Train a model on this** from a training data version, or **Train model** from the project. Review the training set and test set it will use, then click **Start training**. Training also takes some time, and its progress shows on the project's Overview and Models tabs.
+
+**Note:** Tagging and training data stay live inputs. Tag more objects at any point, generate a new version of training data from them, and train a new model version from that.
+
+## Step 7: Test the Model on Footage
+
+Before putting a model on live cameras, see how it does on real footage. From the model's page, click **Test on footage**, choose a camera or uploaded videos and the recordings to run it on, and click **Start test**. Tests usually take 5 to 20 minutes, depending on processing capacity.
+
+When a test finishes, open it to see the model's detections on that footage, and its metrics fill in on the model's page. See [Model Metrics](/training-space/model-metrics) for how to read them.
+
+## Step 8: Deploy to Cameras
+
+When you're happy with a model, click **Deploy to cameras**, choose the cameras it should run on, and set a target frame rate. Worlds provisions a detector for it automatically.
+
+The **Deployment** tab shows the detector's status and the cameras it's running on. From there you can **Change detector** to switch to another model version (or a foundation model), **Configure thresholds**, **Attach cameras**, **Pause** and **Resume**, or **Remove deployment**.
+
+**Tip:** You can also deploy a pretrained foundation model without any training, using **Add foundation model** on the Models tab. Foundation models don't need any tags or training data and don't produce metrics, but they can be useful for common objects to unblock downstream development while a more performant custom model is trained.
+
+{/* SHOT: Worlds_TrainingSpaceDeployment.png - a deployed project's Deployment tab with its status and buttons (click nothing) */}
+
+## Step 9: Review and Improve
+
+The **Review** tab is where you see the full detection output of a deployed model, judge how it's doing against real footage, and correct what it got wrong. Pick a camera and a recording, and every detected object appears as a track, with its start time, end time, and duration, color-coded by tag.
+
+- Click a tag to filter to just that class.
+- Click a track to highlight it in video playback, or click further along a track to jump the video to that point in time.
+- A solid, continuous block on the timeline means the object was tracked without interruption. A broken-up track means detection was lost and picked back up.
+
+**Warning:** Broken tracks aren't necessarily a sign of a bad model. Occlusion is a common cause, if a forklift drives in front of a tracked object, the system may drop that detection and pick it up as a _new_ track once it's visible again. This is expected behavior to watch for, and can usually be accounted for in dependent workflows, not automatically a flaw to fix.
+
+**Correcting what the model got wrong.** Turn on **Corrections** and your review turns into training input:
+
+- **Flag a false positive** - click a detection the model shouldn't have made, and **Exclude from training** keeps that example out of future training data.
+- **Report a missed detection** - click, or draw a box around, an object the model failed to detect, choose its class, and **Add to training** turns it into a labeled training example.
+
+**Tip:** Drawing a box captures a whole object where a single click may only catch part of it, a person's torso instead of the entire person. Reach for a box whenever an object has loose edges or separated parts.
+
+Corrections collect under **Corrections** in the Training data tab and feed the next round of training data. This is the quickest way to improve a deployed model without re-tagging from scratch: review real output, correct what's wrong, then generate training data and train again.
+
+![Worlds Inference View](/images/Worlds_InferenceView.png "Worlds Inference View")
+
+## Quick Reference: The Flow
+
+1. **Start a Forge project** - choose cameras and uploaded videos that share visual context
+2. **Find objects** - search your footage by name or for everything visible
+3. **Tag objects** - find, review, and tag objects into classes; aim for about 500 per tag
+4. **Backgrounds** - build clean backgrounds in Background Studio, and approve them
+5. **Training data** - choose tags and composition, then generate the training and test sets
+6. **Train** - train a new model version
+7. **Test on footage** - run it on recorded video and check its metrics
+8. **Deploy to cameras** - run it live, and manage the detector from the Deployment tab
+9. **Review and improve** - correct false positives and missed detections, then train again
