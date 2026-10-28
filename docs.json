@@ -45,10 +45,18 @@
             ]
           },
           {
-            "group": "Collections & Models",
+            "group": "Models & Training",
             "pages": [
-              "collections-and-models/overview",
-              "collections-and-models/model-training-deployment"
+              "training-space/overview",
+              "training-space/train-and-deploy",
+              "training-space/model-metrics",
+              {
+                "group": "Classic Collections",
+                "pages": [
+                  "collections-and-models/overview",
+                  "collections-and-models/model-training-deployment"
+                ]
+              }
             ]
           },
           {
