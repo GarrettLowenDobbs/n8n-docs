@@ -1,0 +1,46 @@
+---
+title: "3.14.1"
+---
+
+October 19, 2026
+
+---
+
+#### **Dashboarding**
+
+Dashboards are easier to build, easier to narrow down, and closer to Iris than ever:
+
+- **Page Filters** - Add filters for camera, site, priority, activity type, status, or a metadata field to the dashboard header, to a single widget's header, or in a **Filter group** widget. Active filters show as pills, and clicking a gauge, status strip, or outcome card filters the rest of the board.
+- **New Widgets** - The widget picker is now organized by the question you're asking, from **Status & Health** to **Video & Location**, with new widgets including camera activity lanes, outcome split, data table, and a set of time and schedule widgets like countdowns, shift rings, and operations calendars.
+- **Dashboard Previews** - Every card on the **Dashboards** list shows a preview of that dashboard's layout, and editing and viewing now live in one place.
+- **Ask Iris about a Widget** - Widgets can show an **Ask Iris** button that opens Iris right on the dashboard with that widget's context, so you can dig into a number without leaving the page.
+- **Dashboards from Your Agents** - Select **Generate dashboard** on an agent's page and the agent builds a draft you can review with live data, then publish or discard. An agent can keep several dashboards, each focused on a different slice of what it tracks, like one per site or one just for exceptions.
+- **BYO AI** - Admins can select **Connect AI assistant** to install the Worlds dashboard MCP in a tool like Claude Desktop, so dashboards can be built and edited from outside Worlds.
+
+---
+
+#### **Overwatch & Builder**
+
+A clearer map, and one place to set up your site:
+
+- **Transparent Buildings** - In perspective view, buildings render transparent, so cameras, events, and tracked objects inside or behind a building stay visible and clickable.
+- **Floor Plan and Event Heatmap Layers** - Turn on **Floor Plans** to check camera placement against your layout, and **Event Heatmap** to see where events trended from the beginning of the day up to the point you're viewing on the timeline.
+- **Site Details in Builder** - Opening a site now goes straight to Builder, where you can view and edit everything in one place. Layer toggles for cameras, zones, geofences, and regions match Overwatch, and you can edit or remove sites, facilities, floors, and regions in place, with changes showing on the Overwatch map.
+
+---
+
+#### **Model Training**
+
+One workspace for training, and a new kind of model for the spots that matter:
+
+- **Training Space** - Training Space replaces Collections for Admins, under **Models & Training > Projects**, with a streamlined workflow that makes training more intuitive and gets you to a better-performing model faster. Train on uploaded videos alongside live cameras, and browse a camera's full footage history with date, name, and sort filters.
+- **Real Recall** - Model Metrics now shows **Real Recall** next to precision and recall wherever it's been measured: how much of what's actually on your cameras the model finds, with its margin of error. Standard recall is scored against generated test data, while Real Recall is scored against your own tagged video, so you get a truer read on how a model will perform in the real world.
+- **Zone Classifier Models** - A new model type that reads the state of a fixed spot on camera, like a door open or closed, a dock bay occupied or empty, or a drive-thru lane in use, without tracking every object that passes through. The Worlds team sets these up for you today. If you delete a zone a classifier uses, Worlds warns you first and names the classifiers that depend on it.
+
+---
+
+#### **System Management**
+
+Fewer surprises from storage:
+
+- **Storage Credential Expiration** - **Settings > Storage Accounts** shows when each Azure storage account's credentials expire, in a new **Expiration** column and on each account's details page, so you can renew before uploads stop.
