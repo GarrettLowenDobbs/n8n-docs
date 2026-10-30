@@ -34,6 +34,8 @@ Across the top of the screen:
 
 The Object Detections badge and its GPS and Visual counts are interactive. Click one to show or hide that category on the map. The numbers reflect what is visible on the map right now, not everything loaded for the date, so they move as you toggle layers and object types. The priority badges work the same way: click one to show or hide events of that priority.
 
+**Note:** Normal is off by default, so events without a priority are hidden until you turn it on, from its badge or from the **Priority** filter under **Filters** in the Recent Activity panel, which shows how many priorities are selected.
+
 **Note:** These counts are of distinct objects, not of raw detection moments, and they leave out anything without position data, since an object with no position cannot be placed on the map. They also keep up with edits: delete or re-tag a track and the counts follow. When you're [inside a region](#going-inside-a-region), the event counts cover only that region.
 
 <Frame>
@@ -169,7 +171,7 @@ Filter down to the use case that matters (security, safety, whatever it is) and 
 - **Access** - every role; Managers and Users limited to sites they have permission to
 - **Live indicator** - blinking means new data is actively streaming; new events surface at the top of the list and highlight the source camera
 - **Date picker** - review a full day of past data
-- **Top metrics** - total events, events by priority (Critical, High, Medium, Normal), the Heatmap toggle, camera count, plus Object Detections split into GPS and Visual; the badges are clickable map toggles
+- **Top metrics** - total events, events by priority (Critical, High, Medium, and Normal, which is off by default), the Heatmap toggle, camera count, plus Object Detections split into GPS and Visual; the badges are clickable map toggles
 - **Histogram** - events over time, or switch to Object Detections for every detected object by class
 - **Map layers** - cameras, camera field of view, GPS detections, visual detections, events, event heatmap, geofences, floor plans, and per-class object types; your selections are remembered
 - **Perspective view** - tilts the map and raises transparent buildings in 3D, from the button beside the layers icon
