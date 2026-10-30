@@ -18,7 +18,7 @@ Click the date in the top right to open a date picker and review a full day's wo
 
 **Tip:** When you load a site, the map should center and zoom to it automatically. If the default zoom isn't right, that's controlled by the site's **Site Bounds** in [Builder](/sites-and-cameras/builder), adjust the bounds there to change what Overwatch defaults to.
 
-![Worlds Overwatch](/images/Worlds_Overwatch.png "Worlds Overwatch")
+![Worlds Overwatch](/images/Worlds_OverwatchLayers.png "Worlds Overwatch")
 
 ## Top Metrics
 
@@ -54,11 +54,7 @@ Switch the histogram between **Events** and **Object Detections** using the togg
 
 ## Map Layers and Object Tracks
 
-The layers icon in the top right of the map opens the layer controls.
-
-<Frame>
-  ![Worlds Overwatch Layers](/images/Worlds_OverwatchLayers.png "Worlds Overwatch Layers")
-</Frame>
+The layers icon in the top right of the map opens the layer controls, shown open in the screenshot at the top of this page.
 
 - **Cameras** - show or hide cameras on the map, with options to hide inactive ones and to show each camera's field of view.
 - **GPS Detections** and **Visual Detections** - toggled separately and drawn with different markers, so you can bring up GPS-reported positions and camera-based detections independently.
@@ -73,7 +69,7 @@ Under **Object Types**, enable individual object classes, populated from every u
 
 **Perspective view** - the button beside the layers icon tilts the map and raises the buildings around your site in 3D. Buildings render transparent, so cameras, events, and tracked objects inside or behind a building stay visible and clickable. Click the button again to return to the flat, top-down view. Overwatch also remembers your layer selections the next time you open it.
 
-{/* SHOT: Worlds_OverwatchPerspective.png - perspective view zoomed so a camera or event sits inside or behind a transparent building */}
+![Worlds Overwatch Perspective](/images/Worlds_OverwatchPerspective.png "Worlds Overwatch Perspective")
 
 **Tip:** Right-click and drag to pan and tilt the map for a clearer look at where objects and events sit. Right-clicking an object on the map opens a context menu of quick actions, so you can jump to its settings or details without leaving the spatial view.
 
@@ -85,11 +81,9 @@ Under **Object Types**, enable individual object classes, populated from every u
 
 The event heatmap shades the map by where events have been happening, from the start of the selected day up to the point you're viewing on the timeline, so you can see at a glance where activity is concentrating. Turn it on from the **Heatmap** badge at the top of the screen, the **Event Heatmap** layer, or Overwatch settings.
 
-A legend in the top left shows the time window it covers ("Events so far today," "Events all day," or a specific time range once you scrub the timeline), how many events it includes, and a scale from fewer to more events. The heatmap follows your current filters, and it can only place events that carry a map location, so the legend notes how many events it couldn't show.
+A legend in the top left shows the time window it covers ("Events so far today," "Events all day," or a specific time range once you scrub the timeline), how many events it includes, and a scale from fewer to more events. The heatmap follows your current filters, and it can only place events that carry a map location, so the legend notes how many events it couldn't show. Events get a location from calibrated cameras when the workflow that posts them attaches position data, the same requirement as the Events Map on [Event Intelligence](/monitoring/event-intelligence).
 
 **Note:** The heatmap is part of the Events layer. Hiding events hides the heatmap too, and it comes back when you turn events on again.
-
-{/* SHOT: Worlds_OverwatchHeatmap.png - event heatmap on, with its legend visible in the top left, on a live day or a busy past day */}
 
 ## Going Inside a Region
 
@@ -103,8 +97,6 @@ Click a region on the map, or its marker, to go inside it:
 - A breadcrumb at the top shows where you are, for example, your site, then a building, then a zone. Click any level to jump back to it, click the x to leave the region, or press Esc to step up one level.
 
 This makes it easy to drill from a whole site into a single building, line, or workstation, and see only the activity that matters there.
-
-{/* SHOT: Worlds_OverwatchRegion.png - inside a region: faded exterior, breadcrumb, and the "Events in" scope bar on the Recent Activity panel (needs an enterable region on the site) */}
 
 ## Overwatch Settings
 
