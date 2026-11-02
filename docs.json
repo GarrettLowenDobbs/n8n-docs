@@ -31,6 +31,7 @@
             "pages": [
               "monitoring/event-intelligence",
               "monitoring/published-dashboards",
+              "monitoring/dashboard-management",
               "monitoring/event-activity",
               "monitoring/overwatch",
               "monitoring/live-monitor"
@@ -39,14 +40,23 @@
           {
             "group": "Agents & Workflows",
             "pages": [
+              "agents-and-workflows/agents",
               "agents-and-workflows/overview"
             ]
           },
           {
-            "group": "Collections & Models",
+            "group": "Models & Training",
             "pages": [
-              "collections-and-models/overview",
-              "collections-and-models/model-training-deployment"
+              "training-space/overview",
+              "training-space/train-and-deploy",
+              "training-space/model-metrics",
+              {
+                "group": "Collections (Classic)",
+                "pages": [
+                  "collections-and-models/overview",
+                  "collections-and-models/model-training-deployment"
+                ]
+              }
             ]
           },
           {
@@ -59,8 +69,7 @@
           {
             "group": "Settings",
             "pages": [
-              "settings/overview",
-              "monitoring/dashboard-management"
+              "settings/overview"
             ]
           }
         ]
