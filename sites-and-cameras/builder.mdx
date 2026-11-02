@@ -36,7 +36,7 @@ Click the cog at the top of the Site Elements panel to open the site's settings:
 
 ## Step 3: Navigate the Builder Map
 
-The controls in the top right of the map switch between a flat **2D** view and a tilted **3D** view, open the **Layers** menu to show or hide cameras (and their field of view), geofences, points of interest, and facilities, **re-center on the site**, and zoom. In 3D, you can also rotate the map.
+The controls in the top right of the map switch between a flat **2D** view and a tilted **3D** view, open the **Layers** menu to show or hide cameras (and their field of view), geofences, points of interest, and facilities, re-center on the site, and zoom. In 3D, you can also rotate the map.
 
 To add something new, click the round **+** button in the bottom right of the map and choose:
 
@@ -69,7 +69,7 @@ With a camera selected, find **Calibrations** at the bottom of the right panel a
 
 Use **Add Marker** to place matching points on both the map and the video frame. Then drag them into matching positions in both the map and video panels.
 
-**Tip:** Calibration needs at least three markers to run, but an accurate calibration usually takes five to seven. Reference static objects and artifacts, corners, doors, pillars, and place them as accurately as you can - if challenging to locate in the map panel, create a **Facility** and upload a floor plan image to place on the map for reference. Calibration is what lets Worlds translate detections from that camera into real-world locations.
+**Tip:** Calibration needs at least three markers to run, but an accurate calibration usually takes five to seven. Reference static objects and artifacts, corners, doors, pillars, and place them as accurately as you can. If they're hard to find on the map, add a **Facility** and upload a floor plan for reference. Calibration is what lets Worlds translate detections from that camera into real-world locations.
 
 Once all markers are placed, click **Calibrate** to start the calibration job. When it completes, the camera is calibrated, and its detections will begin to carry a lat/long position in addition to the pixel location within the camera frame.
 
@@ -119,12 +119,12 @@ Select a facility, or a region inside it, to set:
 - **Type** - **Building**, **Zone**, **Line**, or **Workstation**, from largest to smallest, or **Fence** for a boundary outline. A region can sit inside a larger type, while a fence can't sit inside or hold other regions.
 - **Parent** - which larger region this one sits inside
 - **Enabled** - turn off to hide the region everywhere outside Builder
-- **Can enter** - lets users open the region as its own view in Overwatch
-- **Colour** and **Fill opacity** - how the region looks on the map
+- **Can Enter** - lets users open the region as its own view in Overwatch
+- **Colour** and **Fill Opacity** - how the region looks on the map
 
-Colour, fill opacity, and Can enter start from the type's defaults, and **Reset** puts any you've changed back.
+Colour, Fill Opacity, and Can Enter start from the type's defaults, and **Reset** puts any you've changed back.
 
-**Tip:** To let users go inside a building in Overwatch, select its facility, give it a region **Type** such as Building, and make sure **Can enter** is on.
+**Tip:** To let users go inside a building in Overwatch, select its facility, give it a region **Type** such as Building, and make sure **Can Enter** is on.
 
 To add a region inside a facility, open its floor and click the plus icon under **Regions**. Worlds adds a new region inside the floor, one type smaller than its parent (a zone inside a building, for example), ready to drag and reshape on the map.
 
@@ -151,4 +151,6 @@ Select anything and click its trash icon to delete it, or press Delete or Backsp
 - **Points of Interest** - group cameras, mainly for multi-camera mounts or large outdoor sites
 - **Geofences** - define areas for workflow triggers, especially useful outdoors
 - **Facilities** - building outlines with an aligned floor plan for calibration reference and spatial context
-- **Regions** - Building, Zone, Line, Workstation, or Fence, with Can enter for Overwatch
+- **Regions** - Building, Zone, Line, Workstation, or Fence, with Can Enter for Overwatch
+- **Site Elements** - filter, show or hide each group on the map, and open any element's Properties
+- **Deleting** - trash icon or Delete; cameras, points of interest, geofences, facilities, and floors can't be undone, regions can

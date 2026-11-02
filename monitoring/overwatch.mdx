@@ -25,8 +25,8 @@ Click the date in the top right to open a date picker and review a full day's wo
 Across the top of the screen:
 
 - **Total events** for the selected date
-- **Events by priority** - Critical, High, Medium, and Normal (events with no priority set)
 - **Heatmap** - turns the [event heatmap](#event-heatmap) on or off
+- **Events by priority** - Critical, High, Medium, and Normal (events with no priority set)
 - **Camera count** associated with the site
 - **Object Detections** - everything the site is currently tracking, broken into two categories:
   - **GPS** - devices reporting their own lat/long positions
@@ -34,7 +34,7 @@ Across the top of the screen:
 
 The Object Detections badge and its GPS and Visual counts are interactive. Click one to show or hide that category on the map. The numbers reflect what is visible on the map right now, not everything loaded for the date, so they move as you toggle layers and object types. The priority badges work the same way: click one to show or hide events of that priority.
 
-**Note:** Normal is off by default, so events without a priority are hidden until you turn it on, from its badge or from the **Priority** filter under **Filters** in the Recent Activity panel, which shows how many priorities are selected.
+**Note:** Normal is off by default, so events without a priority stay hidden until you turn it on from its badge or from **Filters > Priority** in the Recent Activity panel.
 
 **Note:** These counts are of distinct objects, not of raw detection moments, and they leave out anything without position data, since an object with no position cannot be placed on the map. They also keep up with edits: delete or re-tag a track and the counts follow. When you're [inside a region](#going-inside-a-region), the event counts cover only that region.
 
@@ -46,7 +46,7 @@ The Object Detections badge and its GPS and Visual counts are interactive. Click
 
 The histogram along the bottom is interactive, click back in time to see events from that period. It's a quick way to see when activity is heaviest, on top of the right panel, which always keeps the most recent event at the top.
 
-Switch the histogram between **Events** and **Object Detections** using the toggle at the bottom left of the map. Object Detections plots every detected object, the raw output of every live computer vision detector running on cameras at this site, not just posted events. Each object class gets its own colour, and hovering any bar breaks that moment down class by class.
+Switch the histogram between **Events** and **Object Detections** using the toggle at the bottom left of the map. Object Detections plots every detected object, the raw output of every live computer vision detector running on cameras at this site, not just posted events. Each object class gets its own color, and hovering any bar breaks that moment down class by class.
 
 <Frame>
   ![Worlds Overwatch Object Detections](/images/Worlds_OverwatchHistogramObjects.png "Worlds Overwatch Object Detections")
@@ -65,7 +65,7 @@ The layers icon in the top right of the map opens the layer controls, shown open
 
 Where your deployment provides satellite imagery, a **Satellite** basemap option also appears at the top of the layer controls.
 
-Under **Object Types**, enable individual object classes, populated from every unique class your models detect at this site, forklift or person for example, to see where that object has been seen over the course of the day. A type spans both categories, so toggling one filters GPS and visual detections alike. Each class carries the colour it's drawn in on the map and in the Object Detections histogram.
+Under **Object Types**, enable individual object classes, populated from every unique class your models detect at this site, forklift or person for example, to see where that object has been seen over the course of the day. A type spans both categories, so toggling one filters GPS and visual detections alike. Each class carries the color it's drawn in on the map and in the Object Detections histogram.
 
 **Perspective view** - the button beside the layers icon tilts the map and raises the buildings around your site in 3D. Buildings render transparent, so cameras, events, and tracked objects inside or behind a building stay visible and clickable. Click the button again to return to the flat, top-down view. Overwatch also remembers your layer selections the next time you open it.
 
@@ -77,9 +77,11 @@ Under **Object Types**, enable individual object classes, populated from every u
 
 **Note:** Tracks are especially useful at larger sites, sometimes alongside GPS tracking devices and geofences for event logic. More commonly, though, event logic is tied to a specific camera, in which case that camera's tracks can only appear on the Overwatch map if the camera is calibrated. Calibration happens in [Builder](/sites-and-cameras/builder).
 
+**Note:** Where Overwatch settings are enabled, the **Settings** icon in the top bar lets you choose how priority events behave on the map (fading after a set time, or staying active until someone validates them) and which layers show by default.
+
 ## Event Heatmap
 
-The event heatmap shades the map by where events have been happening, from the start of the selected day up to the point you're viewing on the timeline, so you can see at a glance where activity is concentrating. Turn it on from the **Heatmap** badge at the top of the screen, the **Event Heatmap** layer, or Overwatch settings.
+The event heatmap shades the map by where events have been happening, from the start of the selected day up to the point you're viewing on the timeline, so you can see at a glance where activity is concentrating. Turn it on from the **Heatmap** badge at the top of the screen, or the **Event Heatmap** layer.
 
 A legend in the top left shows the time window it covers ("Events so far today," "Events all day," or a specific time range once you scrub the timeline), how many events it includes, and a scale from fewer to more events. The heatmap follows your current filters, and it can only place events that carry a map location, so the legend notes how many events it couldn't show. Events get a location from calibrated cameras when the workflow that posts them attaches position data, the same requirement as the Events Map on [Event Intelligence](/monitoring/event-intelligence).
 
@@ -97,15 +99,6 @@ Click a region on the map, or its marker, to go inside it:
 - A breadcrumb at the top shows where you are, for example, your site, then a building, then a zone. Click any level to jump back to it, click the x to leave the region, or press Esc to step up one level.
 
 This makes it easy to drill from a whole site into a single building, line, or workstation, and see only the activity that matters there.
-
-## Overwatch Settings
-
-The **Settings** button in the top bar opens Overwatch settings, with a live preview of your choices.
-
-- **Behavior** - how priority events act on the map. **Automatic decay**, the default, fades them after a set time you can adjust, and **Validation queue** keeps them active until they're validated or invalidated. You can also set how long events and detections take to fade.
-- **Layers** - which map layers show by default, including cameras, inactive cameras, camera field of view, GPS and visual detections, events, the event heatmap, geofences, floor plans, and whether Overwatch starts in perspective view.
-
-Super Administrators also see a **Developer** group with map, timing, and marker controls.
 
 ## The Recent Activity Panel
 
@@ -169,7 +162,7 @@ Filter down to the use case that matters (security, safety, whatever it is) and 
 - **Perspective view** - tilts the map and raises transparent buildings in 3D, from the button beside the layers icon
 - **Event heatmap** - where events have been happening from the start of the day to the timeline position, with a legend
 - **Regions** - click into a building or area to see only its cameras and events; breadcrumb or Esc to step back out
-- **Settings** - event behavior (Automatic decay or Validation queue), fade timing, and default map layers, from the top bar
+- **Settings** - where enabled, event behavior and default map layers, from the top bar
 - **Object tracks** - need a calibrated camera (from [Builder](/sites-and-cameras/builder)) to appear on the map
 - **Recent Activity panel** - live event stream with thumbnails and priority; mark Valid/Invalid; search and filter by activity, priority, camera, label, status, agent, or validation
 - **Detail panels** - tracked objects (details, day path with scrubber, related events), visual detections (details, camera feed, related events), and cameras (that camera's event list)

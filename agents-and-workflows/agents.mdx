@@ -3,7 +3,7 @@ title: "Agents"
 description: "Build an agent with Iris, review and activate it, and follow what it finds."
 ---
 
-Agents are built and run with [Iris](/platform-overview/iris). Describe what you want watched, in a short conversation or from a document you already have, and Iris drafts an agent for you: what it checks, how it checks it, and what it reports. Once you've reviewed and activated it, the agent runs on its own, on a schedule or whenever something happens, and posts what it finds to [Event Activity](/monitoring/event-activity) right alongside the rest of your events.
+Agents are built and run with [Iris](/platform-overview/iris). Describe what you want watched, in a short conversation or from a document you already have, and Iris drafts an agent for you: what it checks, how it checks it, and what it reports. Once you've reviewed and activated it, the agent runs on its own, on a schedule or whenever something happens, and can post what it finds to [Event Activity](/monitoring/event-activity) right alongside the rest of your events.
 
 ## Before You Start
 
@@ -19,7 +19,7 @@ The Agents page lists everything you're working on, in up to three sections:
 - **Drafts** - agents Iris has drafted that are waiting for your review. Click **Review draft** to open one.
 - **Agents** - your activated agents.
 
-Each agent card shows a few snapshots from the cameras it watches, whether it's **Enabled** or **Disabled**, how it's doing, how often it runs, when it last ran or runs next, and a strip of its recent runs. Its health reads one of:
+Each agent card shows snapshots from the cameras it watches (when it watches cameras), whether it's **Enabled** or **Disabled**, how it's doing, how often it runs, when it last ran or runs next, and a strip of its recent runs. Its health reads one of:
 
 - **Healthy** - its last run succeeded
 - **Needs attention** - its last run failed
@@ -34,13 +34,13 @@ When you don't have any agents yet, the Agents page offers both ways to start: a
 
 ![Worlds Create an Agent](/images/Worlds_AgentsEmptyState.png "Worlds Create an Agent")
 
-Click **Build with a guided interview** in the top right. Iris asks one question at a time, with clickable choices along the way, so most interviews take only a few minutes:
+Click **Build with a guided interview** in the top right, or **Start interview** if you don't have any agents yet. Iris asks one question at a time, with clickable choices along the way, so most interviews take only a few minutes:
 
-1. **What to watch** - describe it in plain language, like "monitor the punch room for breakouts." If you have more than one site, Iris asks which one.
-2. **Cameras and models** - Iris finds the right camera, shows you snapshots, and checks that the model running on it is actually detecting what's needed. If it isn't, she'll suggest another camera.
-3. **Zones and tags** - Iris looks at the zones and tags available on that camera to work out how to check for what you described.
-4. **How specific to be** - choose between a general mandate ("keep an eye on this area") or a specific detection. For a specific detection, Iris asks for two or three example times it happened, so she can compare them against normal periods.
-5. **When it runs** - on a schedule, or whenever a particular thing happens, such as a vehicle entering a zone.
+- **What to watch** - describe it in plain language, like "monitor the punch room for breakouts." If you have more than one site, Iris asks which one.
+- **Cameras and models** - Iris finds the right camera, shows you snapshots, and checks that the model running on it is actually detecting what's needed. If it isn't, she'll suggest another camera.
+- **Zones and tags** - Iris looks at the zones and tags available on that camera to work out how to check for what you described.
+- **How specific to be** - choose between a general mandate ("keep an eye on this area") or a specific detection. For a specific detection, Iris asks for two or three example times it happened, so she can compare them against normal periods.
+- **When it runs** - on a schedule, or whenever a particular thing happens, such as a vehicle entering a zone.
 
 When Iris has what she needs, the interview shows **The agent is ready to draft**. Give the agent a name, set how often it runs if it's on a schedule (presets cover every 10 minutes, every hour, or daily at 6am), and click **Create draft**.
 
@@ -48,7 +48,7 @@ When Iris has what she needs, the interview shows **The agent is ready to draft*
 
 ### Or: Generate from a Document
 
-Already have a standard operating procedure or work instruction? Click **Generate from a document**, drop in a text or Markdown file (up to 2 MB), give it a name, and click **Generate draft**. Iris extracts the objectives from the document and drafts the agent, a workflow, and a set of dashboard widgets from it. If anything in the document is unclear, Iris stops and asks you numbered questions before going further. Answer them in the document and generate again.
+Already have a standard operating procedure or work instruction? Click **Generate from a document** (or **Choose a file** if you don't have any agents yet), paste or drop in a text or Markdown file (up to 2 MB), give it a name, and click **Generate draft**. Iris extracts the objectives from the document and drafts the agent, a workflow, and a set of dashboard widgets from it. If anything in the document is unclear, Iris stops and asks you numbered questions before going further. Answer them in the document and generate again.
 
 ## Step 2: Review and Activate the Draft
 
@@ -94,7 +94,7 @@ An agent can keep several dashboards, each focused on a different slice of what 
 
 When an agent is set to produce event records, everything it finds is posted to [Event Activity](/monitoring/event-activity) under its own name, filed under its site, so it shows up next to the rest of your events, in Overwatch, and anywhere else events appear. Use the **Agent** filter in Event Activity to see just one agent's findings.
 
-**Note:** Each agent gets a [chronicle producer](/agents-and-workflows/overview#chronicle-producers) named after it when it's activated. Deleting that producer permanently deletes everything the agent has posted, so leave it in place for as long as you want to keep the agent's results.
+**Warning:** Each agent gets a [chronicle producer](/agents-and-workflows/overview#chronicle-producers) named after it when it's activated. Deleting that producer permanently deletes everything the agent has posted, so leave it in place for as long as you want to keep the agent's results.
 
 ## Common Uses
 

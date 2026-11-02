@@ -51,7 +51,7 @@
               "training-space/train-and-deploy",
               "training-space/model-metrics",
               {
-                "group": "Classic Collections",
+                "group": "Collections (Classic)",
                 "pages": [
                   "collections-and-models/overview",
                   "collections-and-models/model-training-deployment"

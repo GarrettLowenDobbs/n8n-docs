@@ -68,7 +68,7 @@ Narrow the grid with **All objects**, **Tagged**, or **Untagged**, and by size, 
 
 **Applying tags:** click objects to select them, or use **Select all**, then apply a tag from the menu that appears: create a new tag, or choose an existing one. **Manage tags** lets you add tags, change their colors, or delete one everywhere. Aim for around 500 tagged examples per tag, the tag panel shows how close each one is.
 
-**Tip:** Click a tag to **Find more like** it, **Show outliers** that may be mistagged, or **View only** that tag.
+**Tip:** Click a tag to **Find more like** it, **Show outliers** that may be mistagged, or **View Only** that tag.
 
 **Backgrounds:** click **Pick backgrounds** to mark the current frame as a background while you tag.
 
@@ -78,7 +78,7 @@ Narrow the grid with **All objects**, **Tagged**, or **Untagged**, and by size, 
 
 Good backgrounds directly improve your training data and your final model. A good background has no objects of interest in it at all, and each camera in your project should have one.
 
-Open the **Backgrounds** tab to see your library, including frames marked while tagging. If no frame is genuinely empty, click **Create a background** to open Background Studio, which takes any frame and erases the objects out of it:
+Open the **Backgrounds** tab to see your library, plus frames marked while tagging. If no frame is genuinely empty, click **Create a background** to open Background Studio, which takes any frame and erases the objects out of it:
 
 1. **Pick a frame** - browse a camera's footage and click **Use this frame as background**.
 2. **Review what gets erased** - Worlds detects every object in the frame and proposes what to remove. Switch between **Original**, **Detections**, and **Cleanup** to compare, choose what to erase, and use **Add a missed object** for anything the detector didn't catch.
@@ -86,7 +86,7 @@ Open the **Backgrounds** tab to see your library, including frames marked while 
 
 **Tip:** You're deciding what shouldn't be in a background, not what matters to your model. Anything transient belongs in the removal list, people, vehicles, and pallets in motion included. Fixed infrastructure that's always in frame should stay.
 
-**Warning:** Nothing reaches a training run until you approve it. An unapproved background is skipped.
+**Warning:** Backgrounds you create in Background Studio aren't used in training until you approve them.
 
 ![Worlds Training Space Backgrounds](/images/Worlds_TrainingSpaceBackgrounds.png "Worlds Training Space Backgrounds")
 
@@ -113,7 +113,7 @@ When training data is ready, click **Train a model on this** from a training dat
 
 Before putting a model on live cameras, see how it does on real footage. From the model's page, click **Test on footage**, choose a camera or uploaded videos and the recordings to run it on, and click **Start test**. Tests usually take 5 to 20 minutes, depending on processing capacity.
 
-When a test finishes, open it to see the model's detections on that footage, and its metrics fill in on the model's page. See [Model Metrics](/training-space/model-metrics) for how to read them.
+When a test finishes, it's listed on the model's page. Open it to see the model's detections on that footage. See [Model Metrics](/training-space/model-metrics) for how to read a model's results.
 
 ## Step 8: Deploy to Cameras
 
@@ -146,7 +146,7 @@ Corrections collect under **Corrections** in the Training data tab and feed the 
 
 ![Worlds Inference View](/images/Worlds_InferenceView.png "Worlds Inference View")
 
-## Quick Reference: The Flow
+## Quick Reference
 
 1. **Start a Forge project** - choose cameras and uploaded videos that share visual context
 2. **Find objects** - search your footage by name or for everything visible

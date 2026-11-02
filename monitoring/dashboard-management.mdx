@@ -8,7 +8,7 @@ Custom dashboards are built and edited right on the [Dashboards](/monitoring/pub
 ## Before You Start
 
 - Building and editing dashboards is limited to Super Administrators, traditionally reserved for Worlds employees who help set up and configure your environment. If you or your team want to build custom dashboards, please let us know.
-- **Generate with Iris**, the **Custom widgets** library, and **Connect AI assistant** are feature-flagged and may not be enabled in every environment. Custom widgets and Connect AI assistant are available to Administrators and above.
+- Depending on your environment, **Generate with Iris**, **Custom widgets**, and **Connect AI assistant** may not be available. Administrators can build custom widgets and connect an AI assistant, but placing widgets on a dashboard takes a Super Administrator.
 
 ![Worlds Building Dashboards](/images/Worlds_DashboardManagement.png "Worlds Building Dashboards")
 
@@ -19,7 +19,7 @@ Click **New Dashboard** in the top right of the Dashboards page.
 1. **Name dashboard** - give it a unique name.
 2. **Choose layout** - pick a starting layout, either for a **Monitor** (layouts like Executive Brief, Command Center, or Split Focus) or a **TV or large display** (layouts like NOC Wall or Six Tiles).
 
-Click **Submit** to create the dashboard and open it in the builder. Nothing is created until you submit, so you can cancel at any point.
+Click **Submit** to create the dashboard and open it in the builder.
 
 **Tip:** The layout is just a starting point, not a commitment. Large-format layouts suit a dashboard destined for a TV or big display; more focused layouts suit something reviewed on a monitor. Either way, everything is editable once you're in the canvas, so the initial choice isn't a big decision.
 
@@ -69,7 +69,7 @@ Click **Configure widget** to continue.
 
 ## Step 5 (Optional): Add to a Section
 
-Widgets can also hold a smaller widget in a **Header** or **Footer** section around the **Main** one, useful for grouping visualizations that share the same filters, for example, pairing total event counts by priority with a line chart of the same events over time.
+Widgets can also hold one or more smaller widgets in a **Header** or **Footer** section around the **Main** one, useful for grouping visualizations that share the same filters, for example, pairing total event counts by priority with a line chart of the same events over time.
 
 ## Step 6: Configure the Widget
 
@@ -93,8 +93,8 @@ Most of the configuration lives here.
 - **Custom grouping** - available under most axis and series fields via "Add Custom Grouping." Lets you bin several raw values into one relabeled group, for example, combining truck, car, semi-truck, jeep, trailer, and motorcycle tags into a single "Vehicles" category.
 - **Logic** - rules, targets, and thresholds, for widgets that judge a value as on target or needing attention.
 - **Click filters other widgets** - on by default for most charts, so a click on a bar, slice, row, or stage filters the rest of the dashboard.
-- **Ask Iris** - turn on **Show Ask Iris button** to add an Ask Iris icon to the widget's header, so viewers can ask Iris about it, and optionally write the question Iris starts from. It's off by default on every widget.
-- **Tooltip** - toggle on and add explanatory text; any user hovering over the widget will see it. Good practice for anything that isn't self-explanatory.
+- **Ask Iris** - turn on **Show Ask Iris Button** to add an Ask Iris icon to the widget's header, so viewers can ask Iris about it, and optionally write the question Iris starts from.
+- **Help Tooltip** - turn on **Show Help Tooltip** to add a help icon next to the widget title, with text viewers see when they hover it. Good practice for anything that isn't self-explanatory.
 - **Display options** - show/hide gridlines, legend, axis labels, title, data markers, or data labels. Some of these expand into further formatting choices once enabled.
 - **Advanced settings** - usually fine at the default, but worth adjusting if you're displaying large volumes of data, since the number of series or data points shown can be capped by default. Also where you control whether null values are passed through or grouped into an "Unknown" category.
 
@@ -142,7 +142,7 @@ Saving in the builder publishes immediately: **Save Dashboard**, **Save**, and *
 
 Drafts work differently. Dashboards drafted by Iris, your agents, or an AI assistant connection stay hidden until someone opens them and chooses **Publish dashboard** from the draft banner, or **Publish changes** when the draft updates a dashboard that's already live. Publishing changes keeps the previous version archived. See [Drafts](/monitoring/published-dashboards#drafts).
 
-**Note:** Cloning a draft creates a live copy, not another draft.
+**Note:** Cloning always creates a published copy, so clone a draft only once it's ready to go live.
 
 ## Custom Widgets
 
@@ -171,7 +171,7 @@ Name the widget, save it, and click **Publish** once it's working. Only publishe
 
 ## Quick Reference
 
-- **Access** - Super Administrator only today; Worlds can grant access or build dashboards on your behalf
+- **Access** - Super Administrator only; Worlds can grant access or build dashboards on your behalf
 - **New Dashboard** - name it, pick a Monitor or TV layout (fully editable afterward), or let Iris draft it
 - **Canvas** - up to 12 widgets across 8 rows
 - **Widget categories** - Status & Health, Numbers & Trends, Breakdowns & Rankings, Time & schedule, Video & Location, Filters & controls, Chart builder, Custom

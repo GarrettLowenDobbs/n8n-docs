@@ -20,7 +20,7 @@ Each card shows the dashboard's name, how many widgets it has, when it was last 
 A few cards carry a small badge in the corner:
 
 - **Draft** - a dashboard that hasn't been published yet, only visible to the people who can review it
-- **Robot icon** - a dashboard built by Iris, by one of your agents, or through an AI assistant connection; hover it to see where it came from
+- **Robot icon** - a dashboard made outside the builder, by Iris, one of your agents, an AI assistant connection, or the Worlds team; hover it to see where it came from
 
 ![Worlds Dashboards](/images/Worlds_PublishedDashboards.png "Worlds Dashboards")
 
@@ -28,7 +28,7 @@ A few cards carry a small badge in the corner:
 
 Clicking into any dashboard loads live data into every widget it's configured with, the same way Event Intelligence does. Depending on how it's built, you might see counts, gauges, status strips, charts, timelines, schedules, maps, live video, or custom-coded widgets, there's effectively no limit to what can be visualized given the widget library and custom-code support available to whoever builds it.
 
-Click the dashboard's title at the top to jump straight to another dashboard without going back to the list.
+Click the dashboard's title at the top to jump straight to another dashboard without going back to the list. Live camera and activity clip widgets play video right on the dashboard, and the **Fullscreen** control on any player watches it full screen.
 
 **Tip:** Most widgets support a hover state, hover over a value to see the underlying data behind it: series values and categories in a line chart, totals and percentages in a pie chart, or exact counts in a stacked bar chart.
 
@@ -56,25 +56,21 @@ You can also filter by clicking right on the data. On most charts, clicking a ba
 
 Dashboards can put [Iris](/platform-overview/iris) right next to the data:
 
-- **Ask Iris about a widget** - widgets set up with an **Ask Iris** button carry a small Iris icon in their header. Click it and Iris opens on the dashboard with that widget's context, starting from a question like "What stands out in this widget, and why?" Iris digs into the widget's data before answering, so a thorough answer can take a little while.
+- **Ask Iris about a widget** - widgets set up with an **Ask Iris** button carry a small Iris icon in their header. Click it and Iris opens on the dashboard with that widget's context, including its date range and filters, starting from a question like "What stands out in this widget, and why?"
 - **Ask Iris widget** - some dashboards include a standalone Ask Iris card that asks about the whole dashboard, using its data, date range, and filters.
 
 ![Worlds Dashboard Ask Iris](/images/Worlds_DashboardAskIris.png "Worlds Dashboard Ask Iris")
 
-## Video in Dashboards
-
-Live camera and activity clip widgets play video right on the dashboard. Use the **Fullscreen** control on any player to watch it full screen, and **Exit fullscreen** to return.
-
 ## Drafts
 
-Dashboards built by Iris, by your agents, or through an AI assistant connection start out as drafts. A draft stays hidden from everyone else until it's published.
+Dashboards built by Iris, by your agents, or through an AI assistant connection start out as drafts. A draft stays hidden from viewers until it's published.
 
 Open a draft from its card, or from **Manage > Review drafts** at the top of the Dashboards page. A banner across the top reads **Not published yet**, with two choices:
 
 - **Publish dashboard** - makes it live for everyone in the org
 - **Discard draft** - deletes it
 
-When a draft is a set of changes to a dashboard that's already live, the banner reads **Unpublished changes** instead, and the live dashboard stays exactly as it is until you **Publish changes**. Only the person who started a draft or a Manager can publish it.
+When a draft is a set of changes to a dashboard that's already live, the banner reads **Unpublished changes** instead, and the live dashboard stays exactly as it is until you **Publish changes**. Only the person who started a draft, or a Manager and above, can publish it.
 
 ## Shared Dashboard Features
 
@@ -87,15 +83,13 @@ The ellipses menu (top right) on every dashboard includes:
 
 To get back to the full list, use Dashboards in the navigation.
 
-**Note:** If a widget on a dashboard has been retired from the widget library, it shows **This widget is no longer available** in its place. The rest of the dashboard works as normal, and whoever maintains the dashboard can replace it.
-
 ## Common Use
 
 Dashboards is where you'll find the visualizations Worlds' forward-deployed engineering team, Iris, and your agents have crafted for your specific use cases, distinct from the general overview on Event Intelligence. And wherever you're reviewing data, here or on [Event Intelligence](/monitoring/event-intelligence), [Iris](/platform-overview/iris) is available in the bottom right to answer questions about what you're looking at and help you dig in further.
 
 ## Quick Reference
 
-- **Creating dashboards** - Super Admin only (typically built by the Worlds team), or drafted by Iris and your agents; see [Building Dashboards](/monitoring/dashboard-management)
+- **Creating dashboards** - Super Administrator only (typically built by the Worlds team), or drafted by Iris and your agents; see [Building Dashboards](/monitoring/dashboard-management)
 - **Access** - every user once published; Users and Managers see only data for sites they have permission to
 - **Browsing** - sortable by last updated or name, with layout previews and Draft / robot badges
 - **Date range** - Today, Last 7 days, Last 30 days, or a custom range up to 31 days
