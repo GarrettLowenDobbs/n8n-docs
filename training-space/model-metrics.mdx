@@ -49,13 +49,13 @@ Real Recall appears for models and tags where it's been measured, and Worlds mea
 - **Confusion Matrix** - a breakdown of every class in the project and how likely each is to be confused with another, based on the test set.
 - **Precision & Recall vs. Confidence** - pick a class to see how the confidence threshold affects precision and recall at each level.
 
-![Worlds Precision Recall](/images/Worlds_PrecisionRecall.png "Worlds Precision Recall")
+![Worlds Training Space Precision Recall](/images/Worlds_TrainingSpacePrecisionRecall.png "Worlds Training Space Precision Recall")
 
 ## Tuning Detection Thresholds
 
 The Precision & Recall chart is useful for setting the ideal confidence threshold for each class once the model is trained. Adjusting a class's threshold can surface detections and tracks you'd otherwise miss, or cut down on false positives, without retraining anything.
 
-To change them, open the model's **Options** menu and choose **Configure thresholds**, or use **Configure thresholds** on the project's Deployment tab. Each class starts at its default, and **Reset to saved value** undoes a change before you save.
+To change them, use **Change Threshold** under the Precision & Recall chart, open the model's **Options** menu and choose **Configure thresholds**, or use **Configure thresholds** on the project's Deployment tab. Each class starts at its default, and **Reset to saved value** undoes a change before you save.
 
 ## Tests
 
@@ -71,5 +71,5 @@ Whenever you generate a new set of training data and train a new model, the most
 - **Metrics** - F1, Precision, Recall (generated test set), mAP, and Real Recall (your own tagged video), overall and by tag
 - **Real Recall** - measured automatically where available; the ± range is a 95% confidence interval
 - **Charts** - Confusion Matrix, and Precision & Recall vs. Confidence
-- **Thresholds** - Options > Configure thresholds, or from the Deployment tab; no retraining needed
+- **Thresholds** - Change Threshold under the chart, Options > Configure thresholds, or the Deployment tab; no retraining needed
 - **Re-evaluation** - up to 10 past models are re-scored on each new test set, so older scores can drop
