@@ -1,23 +1,15 @@
 ---
-title: "Agents & Workflows"
-description: "Turn detection and track data from your computer vision models into automated event logic, with Iris agents, chronicle producers, and workflows."
+title: "Chronicle Producers & Workflows"
+sidebarTitle: "Producers & Workflows"
+description: "Build your own event logic with workflows in n8n, and organize the events they post with chronicle producers."
 ---
 
-Agents & Workflows is where you turn detection and track data from your computer vision models into real business logic, defining when events get created and posted in Worlds. There are two ways to do it, and they work side by side:
-
-- **Agents** - Iris builds an agent with you from a conversation or a document, then runs it on a schedule, or whenever something happens, to watch your cameras and data and report what it finds.
-- **Workflows** - you build the logic yourself in Worlds' embedded n8n instance, and post the events it creates under a **chronicle producer**.
+Chronicle producers and workflows are how you build event logic yourself: turning detection and track data from your computer vision models into real business logic in Worlds' embedded n8n instance, and defining when events get created and posted. To have Iris build and run this kind of logic for you, see [Agents](/agents-and-workflows/agents).
 
 ## Before You Start
 
 - Not available to Users. Managers, Administrators, and Super Administrators only.
 - Every workflow posts its events under a chronicle producer, so create one before you build a workflow (see Step 1 below). Agents create their own.
-
-## Agents
-
-Agents are built and run with Iris. Tell Iris what you want watched, review the agent she drafts, and activate it, and it runs on its own from then on, posting what it finds to [Event Activity](/monitoring/event-activity) and building dashboards of its results. See the [Agents](/agents-and-workflows/agents) guide for the full walkthrough.
-
-**Note:** If agents aren't enabled in your environment, **Agents** in the navigation opens the Chronicle Producers page described below instead.
 
 ## Chronicle Producers
 
@@ -61,7 +53,7 @@ For general n8n platform basics, see [n8n's website](https://n8n.io/). For how t
 ## Quick Reference
 
 - **Access** - Manager, Administrator, Super Administrator; not available to Users
-- **Agents** - built and run with Iris; see the [Agents](/agents-and-workflows/agents) guide
+- **Agents** - to have Iris build and run event logic for you, see the [Agents](/agents-and-workflows/agents) guide
 - **Chronicle Producers** - the bucket a workflow posts to; create one before creating any workflow; name and time zone required, description/icon/active status optional; each Iris agent gets its own
 - **Deleting a producer** - permanently removes all of its activities and events, including an agent's findings
 - **Workflows** - opens Worlds' embedded n8n instance; custom Worlds nodes plus full native n8n functionality

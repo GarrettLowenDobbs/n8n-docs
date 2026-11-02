@@ -40,8 +40,8 @@
           {
             "group": "Agents & Workflows",
             "pages": [
-              "agents-and-workflows/overview",
-              "agents-and-workflows/agents"
+              "agents-and-workflows/agents",
+              "agents-and-workflows/overview"
             ]
           },
           {
