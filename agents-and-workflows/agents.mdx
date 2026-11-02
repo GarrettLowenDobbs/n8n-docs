@@ -30,6 +30,10 @@ Each agent card shows a few snapshots from the cameras it watches, whether it's 
 
 ## Step 1: Build an Agent with Iris
 
+When you don't have any agents yet, the Agents page offers both ways to start: a guided interview, or a document you already have.
+
+![Worlds Create an Agent](/images/Worlds_AgentsEmptyState.png "Worlds Create an Agent")
+
 Click **Build with a guided interview** in the top right. Iris asks one question at a time, with clickable choices along the way, so most interviews take only a few minutes:
 
 1. **What to watch** - describe it in plain language, like "monitor the punch room for breakouts." If you have more than one site, Iris asks which one.
@@ -59,20 +63,20 @@ Open a draft from the **Drafts** section, or straight from the end of the interv
 
 When it looks right, click **Activate agent**. If it isn't what you wanted, **Discard draft** and start a new interview.
 
-{/* SHOT: Worlds_AgentDraft.png - an existing draft or activated draft showing the Produces event records card and the review sections */}
-
 ## Step 3: Follow Your Agent
 
 Click any agent to open its page. The header shows whether it's enabled, its schedule, when it runs next, and its health. The menu next to it lets you **Disable** or **Enable** the agent, **Run now**, regenerate its description, or re-link its cameras.
 
 The agent's page has four tabs:
 
-- **Overview** - what the agent does, its **Latest result** (the key numbers, a briefing, images, events detected, and anything awaiting review), its dashboards, and a map of the cameras it covers
+- **Overview** - what the agent does, its **Latest result** (such as a briefing, key numbers, images, events detected, and anything awaiting review), its dashboards, and its **Coverage**, a map of the cameras it watches
 - **Results** - how its results have trended over time, with each run's result one click away
 - **Workflow** - the steps the agent runs, laid out as a graph you can inspect. This is an advanced view, mainly for refining how an agent works.
 - **About** - its execution mode, model, usage, skills, instructions, and a history of its runs
 
 Click any run to see its details: how long it took, what it detected, a timeline of its steps, and a quality check.
+
+![Worlds Agent Overview](/images/Worlds_AgentOverview.png "Worlds Agent Overview")
 
 ### Chat with Your Agent
 
@@ -80,9 +84,11 @@ Click **Chat with Agent** to ask questions about the agent and what it's found, 
 
 ## Step 4: Build Your Agent's Dashboards
 
-Agents can build dashboards of their own results. On the agent's Overview tab, click **Generate dashboard**. This opens Chat with Agent with the request ready to go, and the agent drafts a dashboard of what it detects. Ask it to add a widget, remove one, or change a breakdown until it's right, then click **Review & publish** to open the draft and publish it from the [draft banner](/monitoring/published-dashboards#drafts).
+Agents can build dashboards of their own results. On the agent's Overview tab, click **Generate dashboard**. This opens Chat with Agent with the request ready to go, and the agent drafts a dashboard of what it detects. Pick from the options it suggests, such as adding a widget or changing a breakdown, or ask for any other change until it's right, then click **Review & publish** to open the draft and publish it from the [draft banner](/monitoring/published-dashboards#drafts).
 
 An agent can keep several dashboards, each focused on a different slice of what it tracks. Click **Generate dashboard** again to ask for another one, and use the menu on any dashboard card to open or delete it.
+
+![Worlds Agent Dashboards](/images/Worlds_AgentDashboards.png "Worlds Agent Dashboards")
 
 ## Step 5: Find Agent Results in Event Activity
 
