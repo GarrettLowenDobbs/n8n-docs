@@ -53,7 +53,7 @@ Transcode and inference happen on site. Everything else happens in the hub.
 
 ### How the Edge Talks to the Hub
 
-The edge opens one outbound connection to the hub and everything rides on it. The hub never reaches in.
+The edge initiates every connection, and the hub never connects in. Runtime messaging between the edge and the hub travels over a single persistent, TLS-encrypted message bus connection. The edge also makes outbound HTTPS calls to the Worlds API, the registry, and object storage, listed under Network Requirements.
 
 **Edge to hub:** heartbeats and health metrics, detections and thumbnails as they happen, and sync progress for requested footage.
 
@@ -63,9 +63,9 @@ The edge opens one outbound connection to the hub and everything rides on it. Th
 
 ## Network Requirements
 
-Every connection is outbound from the edge. No inbound firewall rules are required, and no VPN is needed.
+Every connection to the internet is outbound from the edge. Your perimeter firewall needs no inbound rules for the edge, and no VPN is needed. This is separate from the edge host's own firewall, which Worlds configures during the install.
 
-Work with your IT and security team to allow the destinations below, where `<DOMAIN>` is your Worlds domain in the form `<company>.worlds.io`. Worlds provides the exact hostname for the message bus and the registry with your install.
+Work with your IT and security team to allow the destinations below, where `<DOMAIN>` is your Worlds domain in the form `<company>.worlds.io`. Worlds provides the exact message bus, registry, and storage hostnames with your install.
 
 | Destination | Port | Protocol | Phase | Purpose |
 | --- | --- | --- | --- | --- |
@@ -73,23 +73,28 @@ Work with your IT and security team to allow the destinations below, where `<DOM
 | Message bus endpoint | 443 | WSS (TLS) | Runtime | Detections, heartbeats, snapshot and clip messaging |
 | `tracks-service.<DOMAIN>` | 443 | HTTPS | Runtime | Storage security and video service |
 | Registry host | 443 | HTTPS | Install and runtime | Chart and container image pulls |
-| `*.blob.core.windows.net` | 443 | HTTPS | Install and runtime | Worlds object storage, and registry layer storage for an Azure registry |
+| Registry data endpoint | 443 | HTTPS | Install and runtime | Container image layer downloads |
+| Storage account endpoint, `<Storage_NAME>.blob.core.windows.net` | 443 | HTTPS | Runtime | Thumbnails, stills, and synced clips |
 
 **FQDN allowlist** (for proxy and URL-filter allowlists):
 
 ```text
 api.<DOMAIN>
 tracks-service.<DOMAIN>
-*.blob.core.windows.net
+<Storage_NAME>.blob.core.windows.net
 ```
 
-Add the message bus and registry hostnames Worlds provides to the same list.
+Add the message bus, registry, and registry data hostnames Worlds provides to the same list. Allow the specific hostnames rather than a wildcard such as `*.blob.core.windows.net`. If your proxy can only match by wildcard, agree that exception with your security team.
+
+On top of these, the edge needs the DNS and time (NTP) services your network provides.
 
 On the local network, the edge reaches your cameras directly over RTSP on port 554.
 
 **Warning:** Open destinations by FQDN or by cloud service tag, never by IP. Addresses rotate, and an IP allowlist breaks silently, often weeks later.
 
 **Note:** Send your site's static egress source IP to Worlds along with the install date. Worlds registers it where the hub requires an ingress allowlist.
+
+**If you run TLS inspection:** exempt only the destinations above, and only where inspection breaks the connection. Agree any exemption with your security team, and don't widen it to whole domains or cloud providers.
 
 ## Sizing an Edge
 
@@ -201,7 +206,9 @@ Under **Enrollment**, click **Issue Enrollment Token**. The token lets the insta
 
 ### Step 4: Worlds installs the edge
 
-Worlds deploys the edge software onto the prepared hardware as a single chart on lightweight Kubernetes, and the enrollment token is exchanged on first boot for the edge's own credentials, the hub's message bus connection, and its storage configuration. Nothing on the box holds a shared or reusable credential.
+Worlds deploys the edge software onto the prepared hardware as a single chart on lightweight Kubernetes, and the enrollment token is exchanged on first boot for the edge's own credentials, the hub's message bus connection, and its storage configuration. The credential the edge receives is unique to that edge and is not shared with any other edge or site. The enrollment token itself can't be used again once it is exchanged.
+
+Like any installed device, the edge does hold credentials that work for as long as the edge exists, so protect the box physically and see Lost, stolen, or compromised edges below.
 
 ### Step 5: Confirm the edge is online
 
@@ -233,11 +240,37 @@ Configuration is edited in the hub and pushed down live. Edges do not need resta
 
 **Delete** on the edge's page removes it from the hub, tears down its transcoders, and releases its detectors back to the cloud for reassignment. Removing the software from the box itself is handled by Worlds, and video still held locally is not recoverable through the hub once the edge is gone.
 
+Deleting an edge revokes its credential:
+
+- **Worlds API access** stops immediately.
+- **Message bus connections** that are already open are closed when their current authorization expires, within one hour at most. The edge can't reconnect.
+- **Storage access:** the edge gets your storage account's SAS token from the hub while it runs, and it can't fetch it again once deleted. A token the edge already holds stays valid until it expires or you revoke it. If the box may be compromised, revoke the token as described in [Storage Accounts](/infrastructure/storage-account-creation#revoking-the-token).
+
+### Decommissioning an edge
+
+To retire an edge permanently:
+
+1. Request any footage you need to keep, and wait for each sync to finish.
+2. Click **Delete** on the edge's page.
+3. Ask Worlds to remove the software from the box.
+4. Wipe or destroy the edge's disks under your own media-disposal policy before the hardware is reused or leaves your site.
+
+### Lost, stolen, or compromised edges
+
+If an edge is lost or stolen, or you suspect someone has tampered with it:
+
+1. Click **Delete** on the edge's page right away. This revokes the edge's credential as described above.
+2. Contact Worlds Support at [support@worlds.io](mailto:support@worlds.io) and say it is a security incident.
+3. Revoke and reissue the storage account's SAS token, since the edge may hold a copy.
+4. Disconnect the box from the network if you still have it, and keep it for investigation instead of wiping it.
+
+A replacement edge needs a new edge ID and a new enrollment token.
+
 ## Current Limits
 
 - **One machine per edge.** A larger site runs several edges side by side. A single edge spanning several machines is planned, not shipped.
 - **Results are consumed in the hub.** Site workflows that act on detections make a round trip to the hub today. A local message bus on the edge is planned.
-- **Re-enrollment takes a new edge ID.** Credential rotation and decommissioning in place are not yet supported.
+- **Re-enrollment takes a new edge ID.** Rotating an edge's credential in place is not yet supported. To replace a credential, delete the edge and enroll a new one.
 
 ## Quick Reference
 
@@ -247,8 +280,8 @@ Configuration is edited in the hub and pushed down live. Edges do not need resta
 | Rated capacity | 30 cameras at 1080p and 10 fps, up to 80 at 720p and 5 fps, per edge |
 | Latency | 5 to 10 seconds, camera to event |
 | Kubernetes | Lightweight Kubernetes (k3s) on the site machine, installed by Worlds |
-| Outbound ports | 443 only, to the hub, the message bus, the registry, and object storage |
-| Inbound ports | None |
+| Outbound to the internet | TCP 443, to the hub, the message bus, the registry, and object storage, plus your network's DNS and NTP |
+| Inbound through your perimeter | None |
 | Local network | RTSP 554 to cameras |
 | Enrollment | Single-use token, issued from Settings, shown only once |
 | Video storage | On the edge, roughly 5 GB per camera per day, pruned automatically |
