@@ -17,7 +17,8 @@ For additional details, contact your Worlds Project Manager.
 
 - Data is properly isolated in a dedicated storage account
 - Required blob containers are created with proper access controls
-- Secure access is granted to Worlds using a time-bound SAS token and Public network access scope
+- Anonymous (unauthenticated) blob access is disabled and every container is private
+- Secure access is granted to Worlds using a time-bound SAS token, with network access restricted to selected networks or a Private Endpoint
 
 **Prerequisites:**
 
@@ -43,6 +44,10 @@ Two ways to address this:
 - **Option Two: set up a Private Endpoint**
   - Establish a Private Endpoint between the existing storage account and Worlds' AKS subnet.
   - Enables secure, private communication and bypasses the regional firewall constraint entirely.
+  - A Private Endpoint changes both routing and name resolution, and it has to work for every client of the account, not only Worlds:
+    - **Worlds platform:** the `privatelink.blob.core.windows.net` private DNS zone must be linked to the Worlds cluster network, so `<Storage_NAME>.blob.core.windows.net` resolves to the endpoint's private IP. Agree the endpoint's virtual network, subnet, and approval with Worlds before creating it.
+    - **Your transcoders and edge devices:** each one also has to resolve the account name to the private IP, and have a route to it, for example over ExpressRoute or a site-to-site VPN into the endpoint's virtual network. Add a conditional forwarder for `blob.core.windows.net` to Azure DNS (or a DNS resolver in that network) on the DNS servers your devices use.
+    - If public network access is disabled on the account, any device that still resolves the public address loses access to storage. Confirm resolution from every device before disabling it.
 
 ## Step 2: Apply the Recommended Configuration
 
@@ -55,13 +60,17 @@ These are minimum requirements; all other settings can stay at their defaults un
 - **Encryption at rest:** Enabled (Azure-managed keys)
 - **Minimum TLS version:** 1.2
 - Allow access via **HTTPS only**
-- **Public Blob Access:** Enabled
-  - **Public network access scope:** Enable from selected networks
-    - AKS Cluster Egress IP (from Worlds)
-    - Public IP for the server running the transcoder service (from your local network team)
+- **Allow Blob anonymous access:** Disabled
+- **Container access level:** Private (no anonymous access) on every container
 - **Large File Share (File Service):** Enabled
 - **File Share Soft Delete:** Enabled (7 days)
-- Deny anonymous or unauthenticated access
+
+**Network access** is a separate setting from anonymous access. Anonymous access controls whether a request needs credentials at all; network access controls where a request may come from. Configure it to match the option you chose in Step 1:
+
+- **Option One:** **Public network access:** Enabled from selected networks, allowing only:
+  - The Worlds AKS cluster egress IP (from Worlds)
+  - The public IP of each server running the transcoder service (from your local network team)
+- **Option Two:** access through the Private Endpoint. See the routing and DNS requirements in Step 1.
 
 ## Step 3: Create the Required Blob Containers
 
@@ -84,16 +93,30 @@ The Worlds Platform requires, at minimum, the following blob containers. Create 
 
 ## Step 4: Configure Secure Access
 
-Worlds requires SAS token-based access to interact with the storage containers. Generate a SAS token scoped to the **entire storage account**, with:
+Worlds requires SAS token-based access to interact with the storage containers. Generate an account SAS token with:
 
-- **Resource types:** Service, Container, and Object (sco)
-- **Permissions:** Full (rwdlacupfti)
-- **Services:** b (Blob)
-- **Expiry:** up to 1 year
+- **Services:** Blob only (`ss=b`)
+- **Resource types:** Service, Container, and Object (`srt=sco`)
+- **Permissions:** Read, Write, Delete, List, Add, and Create (`sp=rwdlac`)
+- **Expiry:** the shortest period your renewal process supports. Worlds recommends 90 days, and accepts up to 1 year.
 - **Protocol:** HTTPS only
 - **IP restriction:** optional, add if your internal security requires it
 
-**Tip:** Once the account is connected, Worlds shows when its SAS token expires, in the **Expiration** column under **Settings > Storage Accounts** and on the account's details page. Generate a new token before that date and enter it on the account's details page under **Settings > Storage Accounts**, so video keeps saving without interruption.
+The token is scoped to the Blob service of this one storage account. Don't grant permissions for other services (Queue, Table, File), and don't reuse the account for anything other than Worlds.
+
+### Renewing the token
+
+Once the account is connected, Worlds shows when its SAS token expires, in the **Expiration** column under **Settings > Storage Accounts** and on the account's details page. Generate a new token before that date and enter it on the account's details page under **Settings > Storage Accounts**, so video keeps saving without interruption.
+
+### Revoking the token
+
+An account SAS can't be revoked on its own. It stays valid until it expires, or until the storage account key that signed it is rotated. To revoke access, for example if a token is exposed:
+
+1. Note which key (`key1` or `key2`) signed the token.
+2. In the Azure portal, open the storage account, go to **Security + networking > Access keys**, and rotate that key. Every SAS signed with it stops working immediately.
+3. Generate a new SAS with the other key, and enter it under **Settings > Storage Accounts**.
+
+Sign Worlds tokens with a key you don't use for anything else, so rotating it doesn't break other applications.
 
 ## Step 5: Set Up Backup, Retention, and Monitoring
 
@@ -107,11 +130,11 @@ Once setup is complete, securely provide the following to Worlds:
 
 | Required Information | Example / Notes |
 | --- | --- |
-| Storage Account Name | e.g., `prodeusworldsiosa` |
-| SAS Token | e.g., `?sv=...&ss=b&srt=sco&sp=rwdlacupfti...` |
-| Storage Account Region | e.g., East US |
+| Storage Account Name | Illustrative example: `contosoworldsvideo01` |
+| SAS Token | Shape only: `?sv=...&ss=b&srt=sco&sp=rwdlac...` |
+| Storage Account Region | Illustrative example: Central US |
 
-**Important:** Transmit credentials only through secure channels approved by your organization (e.g., encrypted email or a secure file exchange portal).
+**Important:** Transmit credentials only through secure channels approved by your organization (e.g., encrypted email or a secure file exchange portal). Never paste a SAS token into a support ticket, chat message, or screenshot: anyone holding it has the token's full access until it expires or is revoked.
 
 These are the same values entered when connecting the account under [Settings](/settings/overview).
 
@@ -125,8 +148,9 @@ Before sharing with Worlds:
 
 ## Quick Reference
 
-- **Region:** provision in a different region than Worlds' East US (East US 2 suggested), or use a Private Endpoint, same-region IP whitelisting silently fails per Azure's own network security rules
-- **Config baseline:** Standard performance, LRS replication, StorageV2, Hot tier, encryption at rest, TLS 1.2\+, HTTPS only, public blob access enabled and scoped to selected networks
+- **Region:** provision in a different region from your Worlds environment (Worlds confirms the region at installation handoff), or use a Private Endpoint, same-region IP allowlisting silently fails per Azure's own network security rules
+- **Config baseline:** Standard performance, LRS replication, StorageV2, Hot tier, encryption at rest, TLS 1.2\+, HTTPS only, anonymous blob access disabled, all containers private
+- **Network access:** selected networks only (Worlds egress IP and your transcoder IPs), or a Private Endpoint with DNS and routing for both Worlds and your devices
 - **Containers:** 14 required, listed above
-- **Access:** account-wide SAS token, full permissions, HTTPS only, up to 1-year expiry
+- **Access:** Blob-only account SAS token, `rwdlac` permissions, HTTPS only, 90-day expiry recommended (1 year maximum); revoke by rotating the signing key
 - **Handoff:** storage account name, SAS token, and region, shared through a secure channel, then validated before confirming readiness to your Worlds Project Manager

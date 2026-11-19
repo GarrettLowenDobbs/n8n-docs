@@ -32,7 +32,7 @@ Under the hood, this hardware runs:
 - **OS:** Ubuntu 24.04 LTS, minimal install with only what the transcoder service needs
 - **Containerization:** the transcoder runs in Docker, using the `worlds-transcoder` image, pulled from a private registry
 - **Service management:** a systemd service (`edge-transcoder.service`) starts the container on boot, restarts it automatically on failure or power loss, and handles logs through Docker's logging
-- **Networking:** UFW blocks all inbound traffic by default except SSH and HTTPS; Tailscale is optional for Worlds' remote access; a static IP can be configured via netplan
+- **Networking:** the host firewall (UFW) denies inbound traffic by default. SSH is allowed only for management, and Worlds scopes it to the Tailscale interface or to the administration network you name. Tailscale is optional for Worlds' remote access; a static IP can be configured via netplan
 - **Monitoring:** vnStat tracks network usage over time; container logs are available through Docker
 - **Configuration:** values like `COMPANY_ID`, `SITE_ID`, and `TRANSCODER_NAME` live in `/etc/default/transcoder`, sourced by systemd at startup
 - **Security:** OpenSSH for remote management; the registry login credentials live in the environment file so only authorized images get pulled
@@ -65,7 +65,7 @@ Worlds provides a Docker image for the transcoder application to run on your edg
 | --- | --- |
 | Operating System | Ubuntu Linux 24.04 LTS minimal install, latest updates, with UFW, Docker, and vnstat |
 | Application isolation | Docker |
-| Optional firewall | UFW can be scoped to allow SSH only from the Tailscale interface or your administration network |
+| Host firewall | UFW denies inbound by default. Allow SSH only from the Tailscale interface or your administration network, and don't expose SSH to the internet |
 | Secure storage access | AWS Access Key ID \+ Secret Access Key (S3), or SAS/Shared Access Signature (Azure Blob) |
 
 **Network configuration summary** (see Network Requirements below for full detail):
@@ -80,13 +80,15 @@ Worlds provides a Docker image for the transcoder application to run on your edg
 **Installation:**
 
 - **Worlds-provided hardware:** ships pre-configured with minimal Ubuntu 24.04 LTS and the transcoder running in Docker. Needs standard 120VAC power and a non-PoE network connection; a mounting shelf and cables are included. Complete the Network Requirements section before the hardware arrives.
-- **Customer-managed:** review hardware, network, storage, and security options with your Worlds Account Team first. Worlds provides a secure download link and installation instructions (see Deploying with Docker \+ systemd or Deploying with K3s below). Complete networking access before installing the transcoder server so you can fully verify functionality once it's deployed.
+- **Customer-managed:** review hardware, network, storage, and security options with your Worlds Account Team first. Worlds provides a secure download link for a specific release, its SHA-256 checksum, and installation instructions (see Deploying with Docker \+ systemd or Deploying with K3s below). Complete networking access before installing the transcoder server so you can fully verify functionality once it's deployed.
 
 ## Network Requirements
 
 To allow proper communication between your on-site or cloud transcoder and the Worlds-hosted cloud environment, allow the local and outbound connections below. Work with your IT/Security team to apply these.
 
-All connections are **outbound-initiated from the transcoder**. No inbound firewall rules are required, including for remote support via Tailscale.
+All connections are **outbound-initiated from the transcoder**. Your perimeter firewall needs no inbound rules, including for remote support via Tailscale.
+
+This is separate from the firewall on the transcoder host itself, which allows inbound SSH for management only. Restrict that to the Tailscale interface or your administration network, as described in the security baseline above.
 
 **Summary, at a glance:**
 
@@ -101,22 +103,26 @@ All connections are **outbound-initiated from the transcoder**. No inbound firew
 **FQDN allowlist** (for proxy / URL-filter allowlists):
 
 ```text
-*.blob.core.windows.net
+<Storage_NAME>.blob.core.windows.net
 api.<DOMAIN>
 coordinator.<DOMAIN>
 tracks-service.<DOMAIN>
 worldsedgecr.azurecr.io
+<Registry_DATA_ENDPOINT>
 ```
 
-**Values to gather** before you start (which are yours, and which to request from Worlds):
+Allow the specific hostnames rather than a wildcard such as `*.blob.core.windows.net`. If your proxy can only match by wildcard, agree that exception with your security team.
 
-| Placeholder | Example | Provided by |
+**Values to gather** before you start (which are yours, and which to request from Worlds). The examples are illustrative only. Use your own addresses, and the exact values Worlds gives you at installation handoff.
+
+| Placeholder | Illustrative example | Provided by |
 | --- | --- | --- |
-| `<Transcoder_IP>` (host IP) | 10.20.30.50 | Customer |
-| `<Camera_IP>` (or DNS) | 10.20.30.41 | Customer |
-| `<io-adapter_IP>` | 10.20.30.60 | Customer (special use case) |
-| `<DOMAIN>` (format: `<comp>.worlds.io`) | customer.worlds.io | Worlds |
-| `<Storage_NAME>` (Azure storage account) | worldscustomerprod01 | Worlds |
+| `<Transcoder_IP>` (host IP) | 192.168.10.50 | Customer |
+| `<Camera_IP>` (or DNS) | 192.168.10.41 | Customer |
+| `<io-adapter_IP>` | 192.168.10.60 | Customer (special use case) |
+| `<DOMAIN>` (format: `<comp>.worlds.io`) | example.worlds.io | Worlds |
+| `<Storage_NAME>` (Azure storage account) | examplevideostore01 | Worlds |
+| `<Registry_DATA_ENDPOINT>` (image layer downloads) | Provided with your install | Worlds |
 | `<Proxy_IP:Port>` (only if egress uses a forward proxy) | proxy.corp.example:8080 | Customer |
 
 **Outbound Internet (Transcoder → Cloud).** All endpoints below are required; all are outbound TCP:
@@ -128,10 +134,9 @@ worldsedgecr.azurecr.io
 | `coordinator.<DOMAIN>` † | 443 | gRPC (HTTP/2 over TLS) | Transcoder coordination with the Worlds app |
 | `tracks-service.<DOMAIN>` † | 443 | gRPC (HTTP/2 over TLS) | Transcoder writes video location metadata to the Worlds app |
 | `worldsedgecr.azurecr.io` | 443 | HTTPS (HTTP/1.1) | Transcoder's container image repository |
+| `<Registry_DATA_ENDPOINT>` | 443 | HTTPS (HTTP/1.1) | Container image layer downloads |
 
 **† Uses HTTP/2.** If you run TLS inspection or a proxy, see HTTP/2 & Proxy Requirements below, or these will fail.
-
-**Note:** image layer downloads may also use the ACR data endpoint (`*.blob.core.windows.net`); make sure it isn't blocked by URL filtering.
 
 **Local Network (Transcoder → LAN devices):**
 
@@ -141,15 +146,15 @@ worldsedgecr.azurecr.io
 | `<Camera_IP>` | 80 | HTTP | Camera health check, status, and management | Optional |
 | `<io-adapter_IP>` | 502 | Modbus TCP | IO communication (gate/relay signals, IoT) | Optional |
 
-**Note:** for the IO adapter, also add a Nessus scan exclusion for `<io-adapter_IP>`.
+**Note:** some IO adapters can't tolerate vulnerability scanning and stop responding while a scan runs. Exclude `<io-adapter_IP>` from Nessus or similar scans only if your adapter has that limitation and your security team approves the exclusion. Scope it to that one address, and record it as an accepted exception.
 
 ### ⚠️ HTTP/2 & Proxy Requirements (read this if you inspect or proxy traffic)
 
 `coordinator.<DOMAIN>` and `tracks-service.<DOMAIN>` use gRPC, which requires HTTP/2 end to end. gRPC does **not** fall back to HTTP/1.1. If HTTP/2 is stripped or downgraded anywhere in the path, these two endpoints fail while plain HTTPS endpoints (blob storage, ACR, coordinator REST) keep working, which makes the failure easy to miss.
 
-**1. TLS inspection / SSL interception.** If your proxy decrypts and re-encrypts TLS, do one of the following for both endpoints (and ideally all Worlds endpoints):
+**1. TLS inspection / SSL interception.** If your proxy decrypts and re-encrypts TLS, do one of the following for these two endpoints. Agree the approach with your security team before changing inspection policy.
 
-- **Exempt them from TLS inspection** (SSL bypass / allowlist) so the connection tunnels straight through. Simplest and most reliable.
+- **Exempt them from TLS inspection** (SSL bypass / allowlist) so the connection tunnels straight through. Simplest and most reliable. Scope the exemption to `coordinator.<DOMAIN>` and `tracks-service.<DOMAIN>`, from `<Transcoder_IP>` only. Don't exempt the whole `worlds.io` domain or every Worlds endpoint; the other endpoints work under inspection.
 - **Configure the inspection engine to preserve HTTP/2** (pass the ALPN token `h2` through unchanged), only if you've confirmed the product fully supports HTTP/2; many silently downgrade to HTTP/1.1.
 
 **2. Forward / egress proxy.** If the transcoder reaches the internet through an explicit proxy:
@@ -162,7 +167,7 @@ worldsedgecr.azurecr.io
 
 **Other common blockers:**
 
-- **DNS filtering:** the transcoder must resolve `*.<DOMAIN>`, `*.blob.core.windows.net`, `*.azurecr.io`, and (if applicable) `*.tailscale.com`.
+- **DNS filtering:** the transcoder must resolve every hostname in the FQDN allowlist above, and (if applicable) the Tailscale hostnames in the appendix.
 - **Bandwidth:** video upload to blob storage is the dominant flow. Plan for sustained upstream capacity per camera; contact Worlds for sizing figures.
 
 ### Post-Configuration Validation
@@ -171,7 +176,7 @@ After all rules are applied, run this once from the transcoder host (or pod). Ev
 
 ```bash
 # 1) Cloud endpoints reachable on TCP 443
-for ep in "<Storage_NAME>.blob.core.windows.net" api.<DOMAIN> coordinator.<DOMAIN> tracks-service.<DOMAIN> worldsedgecr.azurecr.io; do
+for ep in "<Storage_NAME>.blob.core.windows.net" api.<DOMAIN> coordinator.<DOMAIN> tracks-service.<DOMAIN> worldsedgecr.azurecr.io "<Registry_DATA_ENDPOINT>"; do
   nc -zvw10 "$ep" 443 >/dev/null 2>&1 && echo "PASS tcp: $ep:443" || echo "FAIL tcp: $ep:443"
 done
 
@@ -260,14 +265,17 @@ The systemd service manages the container's lifecycle: starts the transcoder on 
 
 ### Deployment Steps
 
-**1. Download the deployment scripts:**
+**1. Download and verify the deployment scripts.** Worlds sends you a download link for a specific release, `<version>`, and the archive's SHA-256 checksum through a secure channel. Don't reuse a link from another install, and don't run an archive whose checksum doesn't match.
 
 ```bash
-# Download the archive
-curl -O https://peusworldssharesa01.blob.core.windows.net/worldsio-share/transcoder-deploy.tar.gz
+# Download the release archive from the link Worlds provided
+curl -fsSL -o transcoder-deploy-<version>.tar.gz "<download-link>"
+
+# Verify integrity: prints "OK" only if the archive matches the checksum Worlds provided
+echo "<sha256-from-worlds>  transcoder-deploy-<version>.tar.gz" | sha256sum -c -
 
 # Extract
-tar xzf transcoder-deploy.tar.gz
+tar xzf transcoder-deploy-<version>.tar.gz
 cd transcoder-deploy
 
 # Make scripts executable
@@ -394,13 +402,13 @@ sudo systemctl daemon-reload
 sudo systemctl restart edge-transcoder
 ```
 
-**Update API key:**
+**Update API key:** use the interactive update, which hides the key as you type it:
 
 ```bash
-sudo sed -i 's/^WORLDS_API_KEY=.*/WORLDS_API_KEY=<new-key>/' /etc/default/transcoder
-sudo systemctl daemon-reload
-sudo systemctl restart edge-transcoder
+./deploy-transcoder.sh --update-service
 ```
+
+Don't put the key on the command line (for example in a `sed` or `echo` command). Command lines are saved to shell history and are visible to other users in the process list.
 
 **Stop and disable:**
 
@@ -454,7 +462,7 @@ newgrp docker
 **Registry login issues:**
 
 ```bash
-# Re-authenticate
+# Re-authenticate (prompts for the password; don't pass it with -p)
 docker login worldsedgecr.azurecr.io
 # Test image pull
 docker pull worldsedgecr.azurecr.io/worlds-io/worlds-transcoder:<tag>
@@ -539,8 +547,19 @@ Before contacting support, collect:
 2. Last 200 lines: `journalctl -u edge-transcoder -n 200 --no-pager`
 3. `docker info` and `docker --version` (or `podman info`)
 4. `nvidia-smi` output, if GPU
-5. `/etc/default/transcoder` (redact `WORLDS_API_KEY`)
+5. `/etc/default/transcoder`, with `WORLDS_API_KEY` removed
 6. OS version: `cat /etc/os-release`
+
+<Warning>
+Redact every secret before you send anything to support. Check logs and command output as well as configuration files, since secrets can appear in all of them. Remove:
+
+- API keys and tokens, including `WORLDS_API_KEY` and enrollment tokens
+- Passwords, including registry passwords
+- Storage credentials: SAS tokens, access keys, and any signed URL (a URL with `sig=`, `se=`, or `X-Amz-Signature` in it)
+- Camera credentials, including user names and passwords inside RTSP URLs (`rtsp://user:password@...`)
+
+Worlds Support never needs a secret value to troubleshoot. If one is sent by mistake, rotate it.
+</Warning>
 
 Contact: [support@worlds.io](mailto:support@worlds.io)
 
@@ -570,14 +589,17 @@ This path deploys the Worlds Transcoder on a K3s cluster at the edge (cloud or o
 
 ### Deployment Steps
 
-**1. Download and extract:**
+**1. Download, verify, and extract.** Worlds sends you a download link for a specific release, `<version>`, and the archive's SHA-256 checksum through a secure channel. Don't run an archive whose checksum doesn't match.
 
 ```bash
-# Download the archive
-curl -O https://peusworldssharesa01.blob.core.windows.net/worldsio-share/k3s-transcoder.tar.gz
+# Download the release archive from the link Worlds provided
+curl -fsSL -o k3s-transcoder-<version>.tar.gz "<download-link>"
+
+# Verify integrity: prints "OK" only if the archive matches the checksum Worlds provided
+echo "<sha256-from-worlds>  k3s-transcoder-<version>.tar.gz" | sha256sum -c -
 
 # Extract
-tar -xzf k3s-transcoder.tar.gz
+tar -xzf k3s-transcoder-<version>.tar.gz
 cd k3s-transcoder
 
 # Make scripts executable
@@ -627,11 +649,13 @@ Healthy = pod Running, deployment shows Available=True, and there are no errors 
 **5. Optional, if pulls are slow:** the transcoder image is 5GB\+, and the kubelet's parallel blob fetches can overwhelm DNS resolvers on low-bandwidth or rate-limited networks, producing `dial tcp: lookup ...: Try again` errors and long `ImagePullBackOff` cycles. Pre-pull via `k3s ctr` (one persistent connection, single DNS lookup) before running `deploy-transcoder.sh`:
 
 ```bash
-USER=$(kubectl get secret acr-secret -n worlds-ns -o json | jq -r '.data | to_entries[].value' | base64 -d | jq -r '.auths["http://worldsedgecr.azurecr.io"].username')
-PASS=$(kubectl get secret acr-secret -n worlds-ns -o json | jq -r '.data | to_entries[].value' | base64 -d | jq -r '.auths["http://worldsedgecr.azurecr.io"].password')
-
-sudo k3s ctr images pull --user "${USER}:${PASS}" http://worldsedgecr.azurecr.io/worlds-io/worlds-transcoder:1.0.59
+# Pull over HTTPS. Give the registry user name Worlds provided; with no
+# password in --user, ctr prompts for it, so it never reaches shell history.
+sudo k3s ctr images pull --user "<registry-username>" \
+  worldsedgecr.azurecr.io/worlds-io/worlds-transcoder:<tag>
 ```
+
+Use the same `<tag>` that `deploy-transcoder.sh` deploys. Don't add `--plain-http` or an `http://` prefix: the registry only serves HTTPS, and image pulls must stay encrypted.
 
 Once the pull completes, `deploy-transcoder.sh` finds the image in the local content store and starts the pod almost immediately. Skip this step on cloud hosts (Azure, AWS), their DNS resolvers handle the parallel-pull pattern fine.
 
@@ -648,11 +672,14 @@ kubectl patch configmap worlds-config -n worlds-ns -p '{"data":{"TARGET_FRAMERAT
 kubectl rollout restart deployment/worlds-transcoder -n worlds-ns
 ```
 
-**Rotate the API key:**
+**Rotate the API key:** read the key without echoing it, and pass it to `kubectl` on standard input so it never appears on a command line:
 
 ```bash
-kubectl patch secret worlds-secret -n worlds-ns \
-  -p "{\"data\":{\"WORLDS_API_KEY\":\"$(printf '%s' "NEW_KEY" | base64)\"}}"
+read -rsp 'New Worlds API key: ' NEW_KEY; echo
+kubectl patch secret worlds-secret -n worlds-ns --type merge --patch-file /dev/stdin <<EOF
+{"stringData":{"WORLDS_API_KEY":"${NEW_KEY}"}}
+EOF
+unset NEW_KEY
 kubectl rollout restart deployment/worlds-transcoder -n worlds-ns
 ```
 
@@ -726,5 +753,9 @@ Before contacting support, gather:
 4. Cluster state: `kubectl get pods -A`
 5. Pod logs: `kubectl logs -n worlds-ns -l app.kubernetes.io/name=worlds-transcoder --tail=100`
 6. Full error messages
+
+<Warning>
+Redact every secret before you send anything to support, following the same rules as the Docker \+ systemd path above: API keys and tokens, passwords, SAS tokens and other signed URLs, and camera credentials in RTSP URLs. Never send the contents of `worlds-secret`, `acr-secret`, or a kubeconfig file.
+</Warning>
 
 Contact: [support@worlds.io](mailto:support@worlds.io)
