@@ -44,6 +44,9 @@ Applies to both cameras and folders:
 
 - Thresholds and frames-per-second for indexing/tagging video and for processing live video
 - Default sensitivity options applied later when you build models on this source
+- **Tracker profile** - how Worlds follows objects from frame to frame on this source. **General** suits most scenes, and **Drive-thru** is tuned for vehicles moving through a lane.
+
+When an Administrator edits a camera, **Camera tuning** sets that camera's own video settings: resolution, frame rate, bandwidth mode, and privacy masking. Leave a field blank to use its transcoder's setting, shown as a placeholder (see [Transcoder settings](/settings/overview#transcoder-settings)). Saving briefly restarts that camera's video.
 
 **Tip:** Leave these at their defaults to start. Cameras with a wide field of view and small objects of interest in frame may benefit from higher sensitivity to properly segment those smaller objects, but that's not guaranteed, and you can always adjust later.
 
@@ -79,5 +82,6 @@ Click the **Add new zone** button in the right panel, and then click to draw ver
 - **New Source** - name it, choose Camera or Folder
 - **Folders** - name only; for offline or historic video, not tied to a specific camera
 - **Cameras** - optional streaming URL and location; without a URL, behaves like a folder but keeps uploads as one continuous source
-- **Advanced Settings** - thresholds, FPS, and default sensitivity; leave at defaults unless tuning for a specific camera
+- **Advanced Settings** - thresholds, FPS, default sensitivity, and tracker profile; leave at defaults unless tuning for a specific camera
+- **Camera tuning** - Administrator and above; a camera's own resolution, frame rate, bandwidth, and privacy masking, overriding its transcoder's
 - **Zones** - camera-only; point-and-click polygons used in workflow logic to detect object presence or movement between zones
