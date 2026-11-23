@@ -7,7 +7,7 @@ Event Activity, under Monitoring in the navigation, is the basic list view of al
 
 ## Before You Start
 
-- **Naming note:** Worlds is partway through migrating from a legacy "event" system to a new Chronicle system, which will eventually distinguish between Activity, Event, and Summary type records. Right now, all captured data is mirrored across both systems, and this page (despite being named Event Activity) is currently displaying Activity-type Chronicles, the same underlying data as the legacy event system. Expect this to evolve as that distinction becomes more visible in the UI.
+- **Naming note:** Worlds is partway through migrating from a legacy "event" system to a new Chronicle system, which distinguishes between Activity, Event, and Summary type records. Captured data is mirrored across both systems, and this page (despite being named Event Activity) shows Activity-type Chronicles by default, the same underlying data as the legacy event system. Switch it to Summary-type Chronicles from the **Type** filter (see [Summaries](#summaries)).
 - Available to every role, but Users and Managers only see data for sites they have permission to.
 - **Key concept:** an "activity" is the output of a workflow. A workflow evaluates Worlds' inference data, decides what and when to log, then publishes that activity back into Worlds, where it shows up here and elsewhere in Monitoring.
 
@@ -37,6 +37,7 @@ The range is no longer capped at 24 hours. Choose any start and end from the dat
 
 A filter bar runs across the top of the page:
 
+- **Type** - **Activity** (the default) or **Summary**
 - **Search activities** - free-text search by activity name
 - **Priority** - Critical, High, Medium; anything else shows as No Priority
 - **Status** - the activity's current state
@@ -62,6 +63,12 @@ Together they let you confirm why an activity fired and whether it genuinely met
 
 ![Worlds Activity Asset](/images/Worlds_ActivityAsset.png "Worlds Activity Asset")
 
+## Summaries
+
+A summary is a Chronicle record that ties related activities together into a single journey, like an order moving from the menu board to the pickup window, or a truck moving from the gate to the dock. Each activity in the journey is a step, and the steps can come from different cameras.
+
+Set **Type** to **Summary** in the filter bar to list summaries instead of activities. Open one to see its details, attachments, map, and metadata, plus a timeline that lays out each step in order and plays their video back to back. Zoom the timeline in or out, or turn on **Trim to steps** to cut it to just the time the steps cover. Select a step to open its activity, which links back to the summary.
+
 ## Common Use
 
 Event Activity is mainly a tool for reviewing work in progress: workflows, models, zones, and so on, still being tuned. It makes it easier to validate events, troubleshoot accuracy issues, redraw a camera-based or geofence zone, or adjust workflow logic to improve how well your captured activity matches what's actually happening.
@@ -73,6 +80,7 @@ Event Activity is mainly a tool for reviewing work in progress: workflows, model
 - **Live** - new activity appears at the top of the list as it's published
 - **Timeline** - event volume by priority over any date range, with zoom and a collapse control
 - **Sort** - customize the field and direction
-- **Filters** - name, priority, status, site, camera, agent, labels, validation, and date range
+- **Filters** - type (Activity or Summary), name, priority, status, site, camera, agent, labels, validation, and date range
+- **Summaries** - one record per multi-step journey, with a step timeline that plays each step's video in order
 - **Detail** - opens beside the list; Details, Media & Assets, Map, and Metadata tabs; **Discuss this** opens Iris about the activity
 - **Media & Assets** - oldest first, filterable by type; playback with detection and zone overlays, the activity's own tracks highlighted, tags, metadata, raw JSON, and a link to the current moment

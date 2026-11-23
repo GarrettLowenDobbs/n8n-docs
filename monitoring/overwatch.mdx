@@ -28,11 +28,13 @@ Across the top of the screen:
 - **Heatmap** - turns the [event heatmap](#event-heatmap) on or off
 - **Events by priority** - Critical, High, Medium, and Normal (events with no priority set)
 - **Camera count** associated with the site
-- **Object Detections** - everything the site is currently tracking, broken into two categories:
+- **Detections** - everything the site is currently tracking, broken into two categories:
   - **GPS** - devices reporting their own lat/long positions
   - **Visual** - objects detected by a calibrated camera and placed in lat/long space
 
-The Object Detections badge and its GPS and Visual counts are interactive. Click one to show or hide that category on the map. The numbers reflect what is visible on the map right now, not everything loaded for the date, so they move as you toggle layers and object types. The priority badges work the same way: click one to show or hide events of that priority.
+The Detections badge and its GPS and Visual counts are interactive. Click one to show or hide that category on the map. The numbers reflect what is visible on the map right now, not everything loaded for the date, so they move as you toggle layers and object types. The priority badges work the same way: click one to show or hide events of that priority.
+
+On a narrower window, some badges fold into **More event filters** and **More detection layers** menus so the top bar stays on one line.
 
 **Note:** Normal is off by default, so events without a priority stay hidden until you turn it on from its badge or from **Filters > Priority** in the Recent Activity panel.
 
@@ -42,11 +44,11 @@ The Object Detections badge and its GPS and Visual counts are interactive. Click
   ![Worlds Overwatch Chips](/images/Worlds_OverwatchChips.png "Worlds Overwatch Chips")
 </Frame>
 
-## The Histogram: Events and Object Detections
+## The Histogram: Events and Detections
 
 The histogram along the bottom is interactive, click back in time to see events from that period. It's a quick way to see when activity is heaviest, on top of the right panel, which always keeps the most recent event at the top.
 
-Switch the histogram between **Events** and **Object Detections** using the toggle at the bottom left of the map. Object Detections plots every detected object, the raw output of every live computer vision detector running on cameras at this site, not just posted events. Each object class gets its own color, and hovering any bar breaks that moment down class by class.
+Switch the histogram between **Events** and **Detections** using the toggle at the bottom left of the map. Detections plots every detected object, the raw output of every live computer vision detector running on cameras at this site, not just posted events. Each object class gets its own color, and hovering any bar breaks that moment down class by class.
 
 <Frame>
   ![Worlds Overwatch Object Detections](/images/Worlds_OverwatchHistogramObjects.png "Worlds Overwatch Object Detections")
@@ -56,7 +58,7 @@ Switch the histogram between **Events** and **Object Detections** using the togg
 
 The layers icon in the top right of the map opens the layer controls, shown open in the screenshot at the top of this page.
 
-- **Cameras** - show or hide cameras on the map, with options to hide inactive ones and to show each camera's field of view.
+- **Cameras** - show or hide cameras on the map, with options to hide inactive ones and to show each camera's field of view. Each field of view is measured from the camera's calibration, so it shows how far and how wide that camera really sees.
 - **GPS Detections** and **Visual Detections** - toggled separately and drawn with different markers, so you can bring up GPS-reported positions and camera-based detections independently.
 - **Events** - show or hide events on the map.
 - **Event Heatmap** - shade the map by where events have been happening (see [Event Heatmap](#event-heatmap)). Available while the Events layer is on.
@@ -65,7 +67,7 @@ The layers icon in the top right of the map opens the layer controls, shown open
 
 Where your deployment provides satellite imagery, a **Satellite** basemap option also appears at the top of the layer controls.
 
-Under **Object Types**, enable individual object classes, populated from every unique class your models detect at this site, forklift or person for example, to see where that object has been seen over the course of the day. A type spans both categories, so toggling one filters GPS and visual detections alike. Each class carries the color it's drawn in on the map and in the Object Detections histogram.
+Under **Object Types**, enable individual object classes, populated from every unique class your models detect at this site, forklift or person for example, to see where that object has been seen over the course of the day. A type spans both categories, so toggling one filters GPS and visual detections alike. Each class carries the color it's drawn in on the map and in the Detections histogram.
 
 **Perspective view** - the button beside the layers icon tilts the map and raises the buildings around your site in 3D. Buildings render transparent, so cameras, events, and tracked objects inside or behind a building stay visible and clickable. Click the button again to return to the flat, top-down view. Overwatch also remembers your layer selections the next time you open it.
 
@@ -156,8 +158,8 @@ Filter down to the use case that matters (security, safety, whatever it is) and 
 - **Access** - every role; Managers and Users limited to sites they have permission to
 - **Live indicator** - blinking means new data is actively streaming; new events surface at the top of the list and highlight the source camera
 - **Date picker** - review a full day of past data
-- **Top metrics** - total events, events by priority (Critical, High, Medium, and Normal, which is off by default), the Heatmap toggle, camera count, plus Object Detections split into GPS and Visual; the badges are clickable map toggles
-- **Histogram** - events over time, or switch to Object Detections for every detected object by class
+- **Top metrics** - total events, events by priority (Critical, High, Medium, and Normal, which is off by default), the Heatmap toggle, camera count, plus Detections split into GPS and Visual; the badges are clickable map toggles
+- **Histogram** - events over time, or switch to Detections for every detected object by class
 - **Map layers** - cameras, camera field of view, GPS detections, visual detections, events, event heatmap, geofences, floor plans, and per-class object types; your selections are remembered
 - **Perspective view** - tilts the map and raises transparent buildings in 3D, from the button beside the layers icon
 - **Event heatmap** - where events have been happening from the start of the day to the timeline position, with a legend

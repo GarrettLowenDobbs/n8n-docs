@@ -57,9 +57,27 @@ Many customers instead run local (edge) transcoding hardware, since it scales be
 
 Any edge transcoders already configured will appear in this list, showing the transcoder's name, its associated cameras, the site it belongs to, and its last activity.
 
-**Note:** This page is read-only. Standalone edge transcoders are set up outside of Worlds, typically with support from the Worlds team during onboarding (see [Transcoders](/infrastructure/transcoder-setup)), before they appear in this list. To adjust the load on an edge transcoder, edit the individual camera and assign it to a specific edge transcoder, that's not done from this page.
+**Note:** Standalone edge transcoders are set up outside of Worlds, typically with support from the Worlds team during onboarding (see [Transcoders](/infrastructure/transcoder-setup)), before they appear in this list. To adjust the load on an edge transcoder, edit the individual camera and assign it to a specific edge transcoder, that's not done from this page.
 
 **Note:** A site running a full edge, where transcoding and inference both happen on site, is managed under **Edge Deployments** rather than here. See [Edge Deployments](/infrastructure/edge-deployments).
+
+### Transcoder settings
+
+Click a transcoder to adjust how it records and sends video. Changes reach the transcoder within about a minute, with no one needing to visit the site:
+
+- **Max resolution** - downscales larger video to this size, saving bandwidth and storage at the cost of detail
+- **Target frame rate** - records at most this many frames per second
+- **Bandwidth mode** - trades picture quality for upload size, for sites on a constrained uplink
+- **Privacy masking** and **Privacy masking sensitivity** - blur faces or whole people before video leaves the site
+- **Segment duration** - the length of each recorded video segment
+- **Disable hardware acceleration** - processes video on the CPU, for troubleshooting hardware problems
+- **Upload logs to Worlds** - sends the transcoder's logs to Worlds so support can review them
+
+Leave a field blank to keep its default. Values set here take precedence over the ones set when the transcoder was installed. The same settings apply to every transcoder on an edge from that edge's page, under **Edge Deployments**.
+
+**Note:** Most changes briefly restart the affected cameras. Changing **Segment duration** or **Disable hardware acceleration** restarts the transcoder and all of its cameras, so make those changes when a short gap in recording is acceptable. **Upload logs to Worlds** applies without a restart.
+
+**Tip:** Resolution, frame rate, bandwidth, and privacy masking can also be set for a single camera under **Camera tuning** when you edit it (see [Cameras, Folders & Zones](/sites-and-cameras/cameras-folders-zones)). A camera's own values override its transcoder's.
 
 ## Detectors
 
@@ -101,15 +119,16 @@ Click **New Edge Deployment**. Three fields:
 
 ### Managing an edge
 
-Opening an edge gives you five blocks:
+Opening an edge gives you six blocks:
 
 - **Details** - its ID, name, description, and the time of its last heartbeat
 - **Sites** - the sites whose video this edge processes. A site can belong to only one edge.
 - **Enrollment** - issue an enrollment token, which lets the installer fetch that edge's credentials and configuration on first boot. Previously issued tokens are listed with the time they were used.
 - **Environment** - what the edge last reported about itself: cluster node and pod counts, per-node filesystem usage, and its retention and storage figures, along with how long ago it reported
 - **Components** - the version of each Worlds component the edge runs, next to the version most edges run, with **Differs from fleet** marking anything out of step. Versions appear once an edge is running a release that reports them.
+- **Transcoder settings** - the [transcoder settings](#transcoder-settings) above, applied to every transcoder on this edge
 
-**Warning:** Enrollment tokens are single-use and shown only once. Copy the token when you issue it and pass it on through a secure channel. An edge that has already enrolled needs a freshly issued token if it is ever rebuilt.
+**Warning:** Enrollment tokens are single-use and shown only once. Copy the token when you issue it and pass it on through a secure channel. An edge that has already enrolled needs a freshly issued token if it is ever rebuilt or replaced, and Worlds warns you that using it moves the edge to new hardware.
 
 **Note:** Assign an edge's sites before issuing its enrollment token. The edge's scope is bound into the credential it receives when it enrolls.
 
@@ -119,7 +138,7 @@ Opening an edge gives you five blocks:
 
 - **Users** - Manager and above; invite and manage users, assign roles and site permissions
 - **Storage Accounts** - Administrator and above; define cloud/physical storage, see when credentials expire, and assign accounts to sites
-- **Transcoders** - Administrator and above; read-only list of configured edge transcoders; load balancing happens at the camera level
+- **Transcoders** - Administrator and above; list of configured edge transcoders and their recording, privacy, and logging settings; load balancing happens at the camera level
 - **Detectors** - Administrator and above; create a live detector from a model and cameras, or edit and stop an existing one
-- **Edge Deployments** - Administrator and above; create edges, assign their sites, issue single-use enrollment tokens, and read reported cluster and storage health
+- **Edge Deployments** - Administrator and above; create edges, assign their sites, issue single-use enrollment tokens, set transcoder settings for the whole edge, and read reported cluster and storage health
 - **Super Administrator** - broader org-wide tools (dashboards, feature flags, model import/export, organization management); internal Worlds role, not covered here
